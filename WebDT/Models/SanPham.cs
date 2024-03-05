@@ -7,7 +7,7 @@ namespace WebDT.Models
     {
         [Key]
         public int MaSanPham { get; set; }
-
+        public string TenSanPham { get; set;}
         [Column(TypeName = "decimal(18,2)")]
         public decimal Gia { get; set; }
 
