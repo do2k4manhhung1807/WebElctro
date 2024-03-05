@@ -1,0 +1,16 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+namespace WebDT.Models
+{
+    public class BoNho
+    {
+
+        [Key]
+        public int MaBoNho { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập thông tin bộ nhớ")]
+        public string DungLuongBoNho { get; set; }
+        public IList<BoNhoSanPham> BoNhoSanPham { get; set; }
+
+    }
+}
