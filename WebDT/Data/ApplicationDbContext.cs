@@ -106,5 +106,6 @@ namespace WebDT.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
         }
+        public DbSet<WebDT.Models.BoNho> BoNho { get; set; } = default!;
     }
 }
