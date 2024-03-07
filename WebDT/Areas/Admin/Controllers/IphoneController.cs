@@ -5,8 +5,8 @@ using WebDT.Data;
 
 namespace WebDT.Areas.Admin.Controllers
 {
-/*    [Authorize]
-*/    public class IphoneController : Controller
+    [Authorize]
+    public class IphoneController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHost;
