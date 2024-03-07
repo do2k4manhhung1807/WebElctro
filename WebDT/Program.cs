@@ -7,13 +7,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddRazorPages();
-// Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
-); 
+);
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IOTimeout = TimeSpan.FromMinutes(15); //thoi gian ton tai
+    options.Cookie.IsEssential = true;
+});
+
 /*builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-*/builder.Services.AddDefaultIdentity<User>()
+*/
+builder.Services.AddDefaultIdentity<User>()
       .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -45,6 +53,8 @@ builder.Services.Configure<IdentityOptions>(options => {
 
 var app = builder.Build();
 
+
+app.UseSession();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -9,7 +9,7 @@ namespace WebDT.Data
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        public DbSet<SanPham> BONHO { get; set; }
+        public DbSet<BoNho> BONHO { get; set; }
         public DbSet<BoNhoSanPham> BONHOSANPHAM { get; set; }
         public DbSet<HinhAnh> HINHANH { get; set; }
         public DbSet<IMac> IMAC { get; set; }
@@ -23,6 +23,10 @@ namespace WebDT.Data
         public DbSet<RamSanPham> RAMSANPHAM { get; set; }
         public DbSet<ThuongHieu> THUONGHIEU { get; set; }
         public DbSet<SanPham> SANPHAM { get; set; }
+        public virtual DbSet<TrangThaiDonHang> TrangThaiDonHang { get; set; }
+        public virtual DbSet<TrangThaiThanhToan> TrangThaiThanhToan { get; set; }
+        public virtual DbSet<DonHang> DonHang { get; set; }
+        public virtual DbSet<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,6 +86,18 @@ namespace WebDT.Data
                 .WithMany(ms => ms.RamSanPham)
                 .HasForeignKey(m => m.MaRam);
 
+            modelBuilder.Entity<ChiTietDonHangSanPham>().HasKey(sc => new { sc.MaSanPham, sc.MaDonHang });
+
+            modelBuilder.Entity<ChiTietDonHangSanPham>()
+                .HasOne(sc => sc.SanPham)
+                .WithMany(s => s.ChiTietDonHangSanPham)
+                .HasForeignKey(sc => sc.MaSanPham);
+
+            modelBuilder.Entity<ChiTietDonHangSanPham>()
+                .HasOne(sc => sc.DonHang)
+                .WithMany(s => s.ChiTietDonHangSanPham)
+                .HasForeignKey(sc => sc.MaDonHang);
+
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")
            .HasDiscriminator<int>("SanPham")
@@ -101,7 +117,6 @@ namespace WebDT.Data
             }
 
         }
-
 
     }
 }

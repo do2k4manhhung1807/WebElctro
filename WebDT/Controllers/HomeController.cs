@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using WebDT.Data;
 using WebDT.Models;
 
 namespace WebDT.Controllers
@@ -9,15 +11,21 @@ namespace WebDT.Controllers
 */    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _dataContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dataContext)
         {
             _logger = logger;
+            _dataContext = dataContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            // L?y d? li?u t? c? s? d? li?u, ví d? l?y danh sách s?n ph?m
+            var productList = _dataContext.SANPHAM.ToList();
+
+            // Truy?n danh sách s?n ph?m vào View
+            return View(productList);
         }
 
         public IActionResult Privacy()
