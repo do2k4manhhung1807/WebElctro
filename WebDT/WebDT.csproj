@@ -20,4 +20,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
   </ItemGroup>
 
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+>>>>>>> Stashed changes
 </Project>

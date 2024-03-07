@@ -24,6 +24,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+<<<<<<< Updated upstream
+=======
+
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+>>>>>>> Stashed changes
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
