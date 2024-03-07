@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using WebDT.Models;
 
 namespace WebDT.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        public DbSet<SanPham> BONHO { get; set; }
+        public DbSet<BoNho> BONHO { get; set; }
         public DbSet<BoNhoSanPham> BONHOSANPHAM { get; set; }
         public DbSet<HinhAnh> HINHANH { get; set; }
         public DbSet<IMac> IMAC { get; set; }
@@ -105,7 +106,17 @@ namespace WebDT.Data
            .HasValue<IMac>(3)
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var tableName = entityType.GetTableName();
+                if (tableName.StartsWith("AspNet"))
+                {
+                    entityType.SetTableName(tableName.Substring(6));
+                }
+            }
+
         }
-        public DbSet<WebDT.Models.BoNho> BoNho { get; set; } = default!;
+
     }
 }
