@@ -5,8 +5,13 @@ using WebDT.Data;
 
 namespace WebDT.Areas.Admin.Controllers
 {
-/*    [Authorize]
-*/    public class IphoneController : Controller
+
+    /*    [Authorize]
+    */
+    [Area("Admin")]
+    public class IphoneController : Controller
+
+
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHost;
@@ -17,10 +22,12 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
-        public async Task<IActionResult> Index()
+
+
+        public IActionResult Index()
         {
-            var iphone = await _context.IPHONE.ToListAsync();
-            return View(iphone);
+            return View();
+
         }
     }
 }
