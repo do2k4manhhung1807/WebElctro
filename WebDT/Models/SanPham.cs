@@ -10,8 +10,6 @@ namespace WebDT.Models
         public string TenSanPham { get; set;}
         [Column(TypeName = "decimal(18,2)")]
         public decimal Gia { get; set; }
-
-
         [Required(ErrorMessage = "Vui lòng nhập thông tin màn hình")]
         public string ManHinh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin mô tả")]
