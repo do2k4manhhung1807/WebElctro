@@ -22,7 +22,7 @@ namespace WebDT.Controllers
         // GET: BoNho
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BoNho.ToListAsync());
+            return View(await _context.BONHO.ToListAsync());
         }
 
         // GET: BoNho/Details/5
@@ -33,7 +33,7 @@ namespace WebDT.Controllers
                 return NotFound();
             }
 
-            var boNho = await _context.BoNho
+            var boNho = await _context.BONHO
                 .FirstOrDefaultAsync(m => m.MaBoNho == id);
             if (boNho == null)
             {
@@ -71,7 +71,7 @@ namespace WebDT.Controllers
                 return NotFound();
             }
 
-            var boNho = await _context.BoNho.FindAsync(id);
+            var boNho = await _context.BONHO.FindAsync(id);
             if (boNho == null)
             {
                 return NotFound();
@@ -117,7 +117,7 @@ namespace WebDT.Controllers
                 return NotFound();
             }
 
-            var boNho = await _context.BoNho
+            var boNho = await _context.BONHO
                 .FirstOrDefaultAsync(m => m.MaBoNho == id);
             if (boNho == null)
             {
@@ -132,10 +132,10 @@ namespace WebDT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var boNho = await _context.BoNho.FindAsync(id);
+            var boNho = await _context.BONHO.FindAsync(id);
             if (boNho != null)
             {
-                _context.BoNho.Remove(boNho);
+                _context.BONHO.Remove(boNho);
             }
 
             await _context.SaveChangesAsync();
@@ -144,7 +144,7 @@ namespace WebDT.Controllers
 
         private bool BoNhoExists(int id)
         {
-            return _context.BoNho.Any(e => e.MaBoNho == id);
+            return _context.BONHO.Any(e => e.MaBoNho == id);
         }
     }
 }

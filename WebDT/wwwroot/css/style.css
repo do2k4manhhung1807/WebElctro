@@ -12,6 +12,18 @@ body {
     align-items: center;
 } */
 
+.new-product {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    width: 16.66%; /* Set the width to approximately 1/6 of the container */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 
 
 :root {
