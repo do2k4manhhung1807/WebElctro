@@ -6,8 +6,7 @@ using WebDT.Data;
 namespace WebDT.Areas.Admin.Controllers
 {
 
-    /*    [Authorize]
-    */
+    
     [Area("Admin")]
     public class IphoneController : Controller
 
@@ -22,8 +21,6 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
-
-
         public IActionResult Index()
         {
             return View();
