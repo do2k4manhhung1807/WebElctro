@@ -9,8 +9,7 @@ using WebDT.ViewModel;
 
 namespace WebDT.Areas.Admin.Controllers
 {
-    /*    [Authorize]
-    */
+
     [Area("Admin")]
     public class IphoneController : Controller
     {
@@ -23,6 +22,7 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
+
 
 
         public async Task<IActionResult> Index()

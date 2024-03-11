@@ -29,7 +29,10 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="wwwroot\banner\" />
+    <Folder Include="wwwroot\Images\" />
+
   </ItemGroup>
 </Project>
