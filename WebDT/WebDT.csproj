@@ -25,9 +25,13 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
   </ItemGroup>
 
+
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-  </ItemGroup>
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="wwwroot\banner\" />
+    <Folder Include="wwwroot\Images\" />
 
+  </ItemGroup>
 </Project>
