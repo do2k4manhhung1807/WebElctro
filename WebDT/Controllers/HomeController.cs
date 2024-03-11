@@ -1,14 +1,15 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebDT.Data;
 using WebDT.Models;
+using WebDT.ViewModel;
 
 namespace WebDT.Controllers
 {
-/*    [Authorize]
-*/    public class HomeController : Controller
+    /*    [Authorize]
+    */
+    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _dataContext;
@@ -21,11 +22,18 @@ namespace WebDT.Controllers
 
         public IActionResult Index()
         {
-            // L?y d? li?u t? c? s? d? li?u, ví d? l?y danh sách s?n ph?m
-            var productList = _dataContext.SANPHAM.ToList();
+            var sanPhamList = _dataContext.SANPHAM.ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
 
-            // Truy?n danh sách s?n ph?m vào View
-            return View(productList);
+            // T?o ViewModel và gán d? li?u
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
