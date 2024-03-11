@@ -7,7 +7,7 @@ namespace WebDT.Models
     {
         [Key]
         public int MaSanPham { get; set; }
-        public string TenSanPham { get; set;}
+        public string TenSanPham { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Gia { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin màn hình")]
@@ -20,8 +20,11 @@ namespace WebDT.Models
         //public Boolean? YeuThich { get; set; }
         //public Boolean? BanChay { get; set; }
         public ICollection<HinhAnh> HinhAnh { get; set; }
+
+        [ForeignKey("LoaiSanPham")]
         public int MaLoaiSanPham { get; set; }
         public virtual LoaiSanPham LoaiSanPham { get; set; }
+
         public IList<RamSanPham> RamSanPham { get; set; }
         public IList<BoNhoSanPham> BoNhoSanPham { get; set; }
         public IList<MauSacSanPham> MauSacSanPham { get; set; }

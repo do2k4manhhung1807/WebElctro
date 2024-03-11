@@ -22,139 +22,6 @@ namespace WebDT.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("Roles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("UserTokens", (string)null);
-                });
-
             modelBuilder.Entity("WebDT.Models.BoNho", b =>
                 {
                     b.Property<int>("MaBoNho")
@@ -169,7 +36,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaBoNho");
 
-                    b.ToTable("BoNho");
+                    b.ToTable("BoNho", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.BoNhoSanPham", b =>
@@ -184,7 +51,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaBoNho");
 
-                    b.ToTable("BONHOSANPHAM");
+                    b.ToTable("BONHOSANPHAM", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.ChiTietDonHangSanPham", b =>
@@ -202,7 +69,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaDonHang");
 
-                    b.ToTable("ChiTietDonHangSanPham");
+                    b.ToTable("ChiTietDonHangSanPham", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.DonHang", b =>
@@ -243,7 +110,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaTrangThaiThanhToan");
 
-                    b.ToTable("DonHang");
+                    b.ToTable("DonHang", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.HinhAnh", b =>
@@ -265,7 +132,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaSanPham");
 
-                    b.ToTable("HINHANH");
+                    b.ToTable("HINHANH", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.LoaiSanPham", b =>
@@ -282,7 +149,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaLoaiSanPham");
 
-                    b.ToTable("LOAISANPHAM");
+                    b.ToTable("LOAISANPHAM", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.MauSac", b =>
@@ -299,7 +166,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaMauSac");
 
-                    b.ToTable("MAUSAC");
+                    b.ToTable("MAUSAC", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.MauSacSanPham", b =>
@@ -314,7 +181,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaMauSac");
 
-                    b.ToTable("MAUSACSANPHAM");
+                    b.ToTable("MAUSACSANPHAM", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.Ram", b =>
@@ -331,7 +198,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaRam");
 
-                    b.ToTable("RAM");
+                    b.ToTable("RAM", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.RamSanPham", b =>
@@ -346,7 +213,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaRam");
 
-                    b.ToTable("RAMSANPHAM");
+                    b.ToTable("RAMSANPHAM", (string)null);
                 });
 
             modelBuilder.Entity("WebDT.Models.SanPham", b =>
@@ -408,426 +275,309 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaThuongHieu");
 
-                    b.ToTable("THUONGHIEU");
+                    b.ToTable("THUONGHIEU", (string)null);
                 });
 
-            modelBuilder.Entity("WebDT.Models.User", b =>
+            modelBuilder.Entity("WebDT.Models.TrangThaiDonHang", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("MaTrangThaiDonHang")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiDonHang"));
+
+                    b.Property<string>("TenTrangThaiDonHang")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.HasKey("MaTrangThaiDonHang");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("Users", (string)null);
-
-                    modelBuilder.Entity("WebDT.Models.TrangThaiDonHang", b =>
-                        {
-                            b.Property<int>("MaTrangThaiDonHang")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiDonHang"));
-
-                            b.Property<string>("TenTrangThaiDonHang")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.HasKey("MaTrangThaiDonHang");
-
-                            b.ToTable("TrangThaiDonHang");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.TrangThaiThanhToan", b =>
-                        {
-                            b.Property<int>("MaTrangThaiDonHang")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiDonHang"));
-
-                            b.Property<string>("TenTrangThaiDonHang")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.HasKey("MaTrangThaiDonHang");
-
-                            b.ToTable("TrangThaiThanhToan");
-
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.IMac", b =>
-                        {
-                            b.HasBaseType("WebDT.Models.SanPham");
-
-                            b.Property<string>("CongNgheCPU")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("TocDoCPU")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("Turbo")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.HasDiscriminator().HasValue(3);
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.Ipad", b =>
-                        {
-                            b.HasBaseType("WebDT.Models.SanPham");
-
-                            b.Property<string>("CongNgheManHinh")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("DoPhanGiai")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("KichThuocVatLy")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.HasDiscriminator().HasValue(2);
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.Iphone", b =>
-                        {
-                            b.HasBaseType("WebDT.Models.SanPham");
-
-                            b.Property<string>("CameraSau")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("CameraTruoc")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("Chip")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("Pin")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("Rom")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.HasDiscriminator().HasValue(1);
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.Laptop", b =>
-                        {
-                            b.HasBaseType("WebDT.Models.SanPham");
-
-                            b.Property<string>("CPU")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("SoNhanLuong")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("TrongLuong")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.Property<string>("VGA")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b.HasDiscriminator().HasValue(4);
-                        });
-
-                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                        {
-                            b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                                .WithMany()
-                                .HasForeignKey("RoleId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-                        });
-
-                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                        {
-                            b.HasOne("WebDT.Models.User", null)
-                                .WithMany()
-                                .HasForeignKey("UserId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-                        });
-
-                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                        {
-                            b.HasOne("WebDT.Models.User", null)
-                                .WithMany()
-                                .HasForeignKey("UserId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-                        });
-
-                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                        {
-                            b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                                .WithMany()
-                                .HasForeignKey("RoleId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.User", null)
-                                .WithMany()
-                                .HasForeignKey("UserId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-                        });
-
-                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                        {
-                            b.HasOne("WebDT.Models.User", null)
-                                .WithMany()
-                                .HasForeignKey("UserId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.BoNhoSanPham", b =>
-                        {
-                            b.HasOne("WebDT.Models.BoNho", "BoNho")
-                                .WithMany("BoNhoSanPham")
-                                .HasForeignKey("MaBoNho")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.SanPham", "SanPham")
-                                .WithMany("BoNhoSanPham")
-                                .HasForeignKey("MaSanPham")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("BoNho");
-
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.ChiTietDonHangSanPham", b =>
-                        {
-                            b.HasOne("WebDT.Models.DonHang", "DonHang")
-                                .WithMany("ChiTietDonHangSanPham")
-                                .HasForeignKey("MaDonHang")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.SanPham", "SanPham")
-                                .WithMany("ChiTietDonHangSanPham")
-                                .HasForeignKey("MaSanPham")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("DonHang");
-
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.DonHang", b =>
-                        {
-                            b.HasOne("WebDT.Models.TrangThaiDonHang", "TrangThaiDonHang")
-                                .WithMany("DonHang")
-                                .HasForeignKey("MaTrangThaiDonHang")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.TrangThaiThanhToan", "TrangThaiThanhToan")
-                                .WithMany("DonHang")
-                                .HasForeignKey("MaTrangThaiThanhToan")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("TrangThaiDonHang");
-
-                            b.Navigation("TrangThaiThanhToan");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.HinhAnh", b =>
-                        {
-                            b.HasOne("WebDT.Models.SanPham", "SanPham")
-                                .WithMany("HinhAnh")
-                                .HasForeignKey("MaSanPham")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.MauSacSanPham", b =>
-                        {
-                            b.HasOne("WebDT.Models.MauSac", "MauSac")
-                                .WithMany("MauSacSanPham")
-                                .HasForeignKey("MaMauSac")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.SanPham", "SanPham")
-                                .WithMany("MauSacSanPham")
-                                .HasForeignKey("MaSanPham")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("MauSac");
-
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.RamSanPham", b =>
-                        {
-                            b.HasOne("WebDT.Models.Ram", "Ram")
-                                .WithMany("RamSanPham")
-                                .HasForeignKey("MaRam")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.SanPham", "SanPham")
-                                .WithMany("RamSanPham")
-                                .HasForeignKey("MaSanPham")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("Ram");
-
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.SanPham", b =>
-                        {
-                            b.HasOne("WebDT.Models.LoaiSanPham", "LoaiSanPham")
-                                .WithMany("SanPham")
-                                .HasForeignKey("MaLoaiSanPham")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.HasOne("WebDT.Models.ThuongHieu", "ThuongHieu")
-                                .WithMany("SanPham")
-                                .HasForeignKey("MaThuongHieu")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("LoaiSanPham");
-
-                            b.Navigation("ThuongHieu");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.BoNho", b =>
-                        {
-                            b.Navigation("BoNhoSanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.DonHang", b =>
-                        {
-                            b.Navigation("ChiTietDonHangSanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.LoaiSanPham", b =>
-                        {
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.MauSac", b =>
-                        {
-                            b.Navigation("MauSacSanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.Ram", b =>
-                        {
-                            b.Navigation("RamSanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.SanPham", b =>
-                        {
-                            b.Navigation("BoNhoSanPham");
-
-                            b.Navigation("ChiTietDonHangSanPham");
-
-                            b.Navigation("HinhAnh");
-
-                            b.Navigation("MauSacSanPham");
-
-                            b.Navigation("RamSanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.ThuongHieu", b =>
-                        {
-                            b.Navigation("SanPham");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.TrangThaiDonHang", b =>
-                        {
-                            b.Navigation("DonHang");
-                        });
-
-                    modelBuilder.Entity("WebDT.Models.TrangThaiThanhToan", b =>
-                        {
-                            b.Navigation("DonHang");
-                        });
-#pragma warning restore 612, 618
+                    b.ToTable("TrangThaiDonHang", (string)null);
                 });
-            }
+
+            modelBuilder.Entity("WebDT.Models.TrangThaiThanhToan", b =>
+                {
+                    b.Property<int>("MaTrangThaiDonHang")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiDonHang"));
+
+                    b.Property<string>("TenTrangThaiDonHang")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaTrangThaiDonHang");
+
+                    b.ToTable("TrangThaiThanhToan", (string)null);
+                });
+
+            modelBuilder.Entity("WebDT.Models.IMac", b =>
+                {
+                    b.HasBaseType("WebDT.Models.SanPham");
+
+                    b.Property<string>("CongNgheCPU")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TocDoCPU")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Turbo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(3);
+                });
+
+            modelBuilder.Entity("WebDT.Models.Ipad", b =>
+                {
+                    b.HasBaseType("WebDT.Models.SanPham");
+
+                    b.Property<string>("CongNgheManHinh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoPhanGiai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("KichThuocVatLy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(2);
+                });
+
+            modelBuilder.Entity("WebDT.Models.Iphone", b =>
+                {
+                    b.HasBaseType("WebDT.Models.SanPham");
+
+                    b.Property<string>("CameraSau")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CameraTruoc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chip")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("WebDT.Models.Laptop", b =>
+                {
+                    b.HasBaseType("WebDT.Models.SanPham");
+
+                    b.Property<string>("CPU")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SoNhanLuong")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrongLuong")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VGA")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(4);
+                });
+
+            modelBuilder.Entity("WebDT.Models.BoNhoSanPham", b =>
+                {
+                    b.HasOne("WebDT.Models.BoNho", "BoNho")
+                        .WithMany("BoNhoSanPham")
+                        .HasForeignKey("MaBoNho")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.SanPham", "SanPham")
+                        .WithMany("BoNhoSanPham")
+                        .HasForeignKey("MaSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BoNho");
+
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.ChiTietDonHangSanPham", b =>
+                {
+                    b.HasOne("WebDT.Models.DonHang", "DonHang")
+                        .WithMany("ChiTietDonHangSanPham")
+                        .HasForeignKey("MaDonHang")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.SanPham", "SanPham")
+                        .WithMany("ChiTietDonHangSanPham")
+                        .HasForeignKey("MaSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DonHang");
+
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.DonHang", b =>
+                {
+                    b.HasOne("WebDT.Models.TrangThaiDonHang", "TrangThaiDonHang")
+                        .WithMany("DonHang")
+                        .HasForeignKey("MaTrangThaiDonHang")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.TrangThaiThanhToan", "TrangThaiThanhToan")
+                        .WithMany("DonHang")
+                        .HasForeignKey("MaTrangThaiThanhToan")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TrangThaiDonHang");
+
+                    b.Navigation("TrangThaiThanhToan");
+                });
+
+            modelBuilder.Entity("WebDT.Models.HinhAnh", b =>
+                {
+                    b.HasOne("WebDT.Models.SanPham", "SanPham")
+                        .WithMany("HinhAnh")
+                        .HasForeignKey("MaSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.MauSacSanPham", b =>
+                {
+                    b.HasOne("WebDT.Models.MauSac", "MauSac")
+                        .WithMany("MauSacSanPham")
+                        .HasForeignKey("MaMauSac")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.SanPham", "SanPham")
+                        .WithMany("MauSacSanPham")
+                        .HasForeignKey("MaSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MauSac");
+
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.RamSanPham", b =>
+                {
+                    b.HasOne("WebDT.Models.Ram", "Ram")
+                        .WithMany("RamSanPham")
+                        .HasForeignKey("MaRam")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.SanPham", "SanPham")
+                        .WithMany("RamSanPham")
+                        .HasForeignKey("MaSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ram");
+
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.SanPham", b =>
+                {
+                    b.HasOne("WebDT.Models.LoaiSanPham", "LoaiSanPham")
+                        .WithMany("SanPham")
+                        .HasForeignKey("MaLoaiSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.ThuongHieu", "ThuongHieu")
+                        .WithMany("SanPham")
+                        .HasForeignKey("MaThuongHieu")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LoaiSanPham");
+
+                    b.Navigation("ThuongHieu");
+                });
+
+            modelBuilder.Entity("WebDT.Models.BoNho", b =>
+                {
+                    b.Navigation("BoNhoSanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.DonHang", b =>
+                {
+                    b.Navigation("ChiTietDonHangSanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.LoaiSanPham", b =>
+                {
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.MauSac", b =>
+                {
+                    b.Navigation("MauSacSanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.Ram", b =>
+                {
+                    b.Navigation("RamSanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.SanPham", b =>
+                {
+                    b.Navigation("BoNhoSanPham");
+
+                    b.Navigation("ChiTietDonHangSanPham");
+
+                    b.Navigation("HinhAnh");
+
+                    b.Navigation("MauSacSanPham");
+
+                    b.Navigation("RamSanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.ThuongHieu", b =>
+                {
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("WebDT.Models.TrangThaiDonHang", b =>
+                {
+                    b.Navigation("DonHang");
+                });
+
+            modelBuilder.Entity("WebDT.Models.TrangThaiThanhToan", b =>
+                {
+                    b.Navigation("DonHang");
+                });
+#pragma warning restore 612, 618
+        }
     }
 }
