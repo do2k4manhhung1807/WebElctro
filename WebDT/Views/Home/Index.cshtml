@@ -1,7 +1,7 @@
-﻿@{
+﻿@model WebDT.ViewModel.SanPhamChiTietViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<SanPham>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -255,38 +255,66 @@
     </div>
 
     <!-- Sản phẩm đặc biệt-->
-    @if (Model != null)
+@if (Model != null && Model.SanPhamList != null)
 {
-    <div>
-        <div class="product-area">
-            <p class="title-product">Tất cả sản phẩm</p>
-            <div class="new-product">
-                @{
-                    int counter = 0;
-                    foreach (var item in Model)
-                    {
-                        <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
-                            <img src="~/Images/@(item?.HinhAnh)">
-                            <div class="product-info">
-                                <p>@(item?.TenSanPham)</p>
-                                <span>@(item?.Gia)</span>
-                            </div>
-                        </div>
-                        counter++;
-                        if (counter % 6 == 0)
+    <div class="product-area">
+        <p class="title-product">Tất cả sản phẩm</p>
+        <div class="new-product">
+            @{
+
+                int counter = 0;
+                foreach (var item in Model.SanPhamList)
+                {
+                     <a asp-action="Details" asp-controller="SanPham" asp-route-MaSanPham="@item.MaSanPham">
+                    <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
+                    @if (item.HinhAnh != null && item.HinhAnh.Any())
                         {
-                            @:</div><div class="new-product">
+                            /*
+                             
+                            var firstImage = item.HinhAnh.FirstOrDefault();
+                            if (firstImage != null)
+                            {
+                                <img src="@Url.Content(firstImage.FileHinhAnh)">
+                                    <p>Hiiiiiiiiiii</p>
+                                }
+                            }
+                             */
+                            @foreach (var image in item.HinhAnh)
+                            {
+                                <img src="./Images/@image.FileHinhAnh"/>
+                                break;
+                            }
+                         }
+                        else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                        {
+                            // Display a default image from HinhAnhList
+                            <img src="./Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
                         }
+                        else
+                        {
+                            // Display a default image
+                            <img src="@Url.Content("/Images/no-images.jpg")">
+                        }
+
+                        <div class="product-info">
+                            <p>@(item?.TenSanPham)</p>
+                            <span>@(item?.Gia)</span>
+                        </div>
+
+                    </div>
+                       </a>
+                    counter++;
+                     
+                    if (counter % 6 == 0)
+                    {
+                        @:</div><div class="new-product">
                     }
+                      
                 }
-            </div>
+            }
         </div>
     </div>
 }
-
-
-
-
 
     <div>
     </div>
