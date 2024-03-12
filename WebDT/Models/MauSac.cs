@@ -9,6 +9,6 @@ namespace WebDT.Models
         public int MaMauSac { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập tên màu")]
         public string TenMau { get; set; }
-        public IList<MauSacSanPham> MauSacSanPham { get; set; }
+        public IList<SanPham> SanPham { get; set; }
     }
 }

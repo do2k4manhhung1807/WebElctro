@@ -44,10 +44,9 @@ namespace WebDT.Areas.Admin.Controllers
         {
             if (ip == null || ip.Ipad == null)
             {
-                return View(    );
+                return View();
             }
 
-            /*Add data for iphone*/
             Ipad ipa = new Ipad()
             {
                 TenSanPham = ip.Ipad.TenSanPham,
@@ -59,6 +58,9 @@ namespace WebDT.Areas.Admin.Controllers
                 MaSanPhamDacBiet = ip.MaSanPhamDacBiet,
                 MaThuongHieu = ip.MaThuongHieu,
                 MaLoaiSanPham = ip.MaLoaiSanPham,
+                MaRam = ip.MaRam,
+                MaBoNho = ip.MaBoNho,
+                MaMauSac = ip.MaMauSac,
 
                 DoPhanGiai = ip.Ipad.DoPhanGiai,
                 CongNgheManHinh = ip.Ipad.CongNgheManHinh,
@@ -66,43 +68,16 @@ namespace WebDT.Areas.Admin.Controllers
             };
             await _context.SANPHAM.AddAsync(ipa);
             await _context.SaveChangesAsync();
-            /*Add data for image table*/
             foreach (var anh in ip.HinhAnhSanPham)
-            {
-                string tenAnh = UploadFile(anh);
-                HinhAnh hinhAnh = new HinhAnh()
                 {
-                    FileHinhAnh = tenAnh,
-                    MaSanPham = ipa.MaSanPham
-                };
-                await _context.HINHANH.AddAsync(hinhAnh);
-            }
-
-            /*Add data for dungluong*/
-            BoNhoSanPham boNhoSanPham = new BoNhoSanPham()
-            {
-                MaBoNho = ip.MaBoNho,
-                MaSanPham = ipa.MaSanPham
-            };
-            await _context.BONHOSANPHAM.AddAsync(boNhoSanPham);
-
-
-            /*Add data for ram*/
-            RamSanPham ramSanPham = new RamSanPham()
-            {
-                MaRam = ip.MaRam,
-                MaSanPham = ipa.MaSanPham
-            };
-            await _context.RAMSANPHAM.AddAsync(ramSanPham);
-
-
-            /*Add data for color*/
-            MauSacSanPham mauSacSanPham = new MauSacSanPham()
-            {
-                MaMauSac = ip.MaMauSac,
-                MaSanPham = ipa.MaSanPham
-            };
-            await _context.MAUSACSANPHAM.AddAsync(mauSacSanPham);
+                    string tenAnh = UploadFile(anh);
+                    HinhAnh hinhAnh = new HinhAnh()
+                    {
+                        FileHinhAnh = tenAnh,
+                        MaSanPham = ipa.MaSanPham
+                    };
+                    await _context.HINHANH.AddAsync(hinhAnh);
+                }
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "iPad");
@@ -111,7 +86,6 @@ namespace WebDT.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int maSanPham)
         {
-            /*var iphone*/
             return View();
         }
 
@@ -126,15 +100,14 @@ namespace WebDT.Areas.Admin.Controllers
         {
             var dienThoai = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
             var ipad = await _context.IPAD.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var maRam = await _context.RAMSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maRam = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                         .Select(m => m.MaRam).FirstOrDefaultAsync();
-            var maBoNho = await _context.BONHOSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maBoNho = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                     .Select(m => m.MaBoNho).FirstOrDefaultAsync();
-            var maMauSac = await _context.MAUSACSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maMauSac = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                     .Select(m => m.MaMauSac).FirstOrDefaultAsync();
             var images = await _context.HINHANH.Where(x => x.MaSanPham == maSanPham)
                                 .Select(m => m.FileHinhAnh).ToListAsync();
-            /*Get names*/
             var boNho = await _context.BONHO.Where(x => x.MaBoNho == maBoNho).Select(t => t.DungLuongBoNho).FirstOrDefaultAsync();
             var mauSac = await _context.MAUSAC.Where(x => x.MaMauSac == maMauSac).Select(t => t.TenMau).FirstOrDefaultAsync();
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();

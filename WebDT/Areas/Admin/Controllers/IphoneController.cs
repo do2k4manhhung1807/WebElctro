@@ -15,7 +15,7 @@ namespace WebDT.Areas.Admin.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHost;
 
-        public IphoneController(ApplicationDbContext context, IWebHostEnvironment webHost )
+        public IphoneController(ApplicationDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
             _webHost = webHost;
@@ -49,8 +49,7 @@ namespace WebDT.Areas.Admin.Controllers
             {
                 return View(iphone);
             }
-            
-            /*Add data for iphone*/
+
             Iphone dienThoai = new Iphone()
             {
                 TenSanPham = iphone.Phone.TenSanPham,
@@ -59,57 +58,32 @@ namespace WebDT.Areas.Admin.Controllers
                 ManHinh = iphone.Phone.ManHinh,
 
 
-                Chip = iphone.Phone.Chip,
                 MaSanPhamDacBiet = iphone.MaSanPhamDacBiet,
                 MaThuongHieu = iphone.MaThuongHieu,
                 MaLoaiSanPham = iphone.MaLoaiSanPham,
+                MaRam = iphone.MaRam,
+                MaBoNho = iphone.MaBoNho,
+                MaMauSac = iphone.MaMauSac,
 
+                Chip = iphone.Phone.Chip,
                 Rom = iphone.Phone.Rom,
                 CameraTruoc = iphone.Phone.CameraTruoc,
                 CameraSau = iphone.Phone.CameraSau,
                 Pin = iphone.Phone.Pin
             };
-           
+
             await _context.SANPHAM.AddAsync(dienThoai);
             await _context.SaveChangesAsync();
-            /*Add data for image table*/
             foreach (var anh in iphone.HinhAnhSanPham)
-            {
-                string tenAnh = UploadFile(anh);
-                HinhAnh hinhAnh = new HinhAnh()
                 {
-                    FileHinhAnh = tenAnh,
-                    MaSanPham = dienThoai.MaSanPham
-                };
-                await _context.HINHANH.AddAsync(hinhAnh);
-            }
-            
-            /*Add data for dungluong*/
-            BoNhoSanPham boNhoSanPham = new BoNhoSanPham() 
-            { 
-                MaBoNho = iphone.MaBoNho,
-                MaSanPham = dienThoai.MaSanPham
-            };
-            await _context.BONHOSANPHAM.AddAsync(boNhoSanPham);
-
-
-            /*Add data for ram*/
-            RamSanPham ramSanPham = new RamSanPham()
-            {
-                MaRam = iphone.MaRam,
-                MaSanPham = dienThoai.MaSanPham
-            };
-            await _context.RAMSANPHAM.AddAsync(ramSanPham);
-
-
-            /*Add data for color*/
-            MauSacSanPham mauSacSanPham = new MauSacSanPham() 
-            {
-                MaMauSac = iphone.MaMauSac,
-                MaSanPham = dienThoai.MaSanPham
-            };
-            await _context.MAUSACSANPHAM.AddAsync(mauSacSanPham);
-
+                    string tenAnh = UploadFile(anh);
+                    HinhAnh hinhAnh = new HinhAnh()
+                    {
+                        FileHinhAnh = tenAnh,
+                        MaSanPham = dienThoai.MaSanPham
+                    };
+                    await _context.HINHANH.AddAsync(hinhAnh);
+                }
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Iphone");
         }
@@ -125,26 +99,21 @@ namespace WebDT.Areas.Admin.Controllers
 
             var dienThoai = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
             var phone = await _context.IPHONE.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var maRam = await _context.RAMSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maRam = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                         .Select(m => m.MaRam).FirstOrDefaultAsync();
-            var maBoNho = await _context.BONHOSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maBoNho = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                     .Select(m => m.MaBoNho).FirstOrDefaultAsync();
-            var maMauSac = await _context.MAUSACSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maMauSac = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                     .Select(m => m.MaMauSac).FirstOrDefaultAsync();
             var images = await _context.HINHANH.Where(x => x.MaSanPham == maSanPham)
                                 .Select(m => m.FileHinhAnh).ToListAsync();
-            /*Get key*/
-            var boNho = await _context.BONHO.Where(x => x.MaBoNho == maBoNho).Select(t => t.MaBoNho).FirstOrDefaultAsync();
-            var mauSac = await _context.MAUSAC.Where(x => x.MaMauSac == maMauSac).Select(t => t.MaMauSac).FirstOrDefaultAsync();
-            var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.MaRam).FirstOrDefaultAsync();
-            
 
             IphoneViewModel iphone = new IphoneViewModel()
             {
                 Phone = phone,
-                MaBoNho = boNho,
-                MaMauSac = mauSac,
-                MaRam = ram,
+                MaBoNho = maBoNho,
+                MaMauSac = maMauSac,
+                MaRam = maRam,
                 MaThuongHieu = phone.MaThuongHieu,
                 MaLoaiSanPham = phone.MaLoaiSanPham,
                 TenHinhAnh = images
@@ -163,12 +132,14 @@ namespace WebDT.Areas.Admin.Controllers
                 Gia = iphone.Phone.Gia,
                 ManHinh = iphone.Phone.ManHinh,
 
+                MaLoaiSanPham = iphone.MaLoaiSanPham,
+                MaThuongHieu = iphone.MaThuongHieu,
+                MaRam = iphone.MaRam,
+                MaBoNho = iphone.MaBoNho,
+                MaMauSac = iphone.MaMauSac,
 
 
                 Chip = iphone.Phone.Chip,
-                MaThuongHieu = iphone.MaThuongHieu,
-                MaLoaiSanPham = iphone.MaLoaiSanPham,
-
                 Rom = iphone.Phone.Rom,
                 CameraTruoc = iphone.Phone.CameraTruoc,
                 CameraSau = iphone.Phone.CameraSau,
@@ -177,40 +148,6 @@ namespace WebDT.Areas.Admin.Controllers
             _context.Attach(dienThoai);
             _context.Entry(dienThoai).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
-            /*Add data for dungluong*/
-            BoNhoSanPham boNhoSanPham = new BoNhoSanPham()
-            {
-                MaBoNho = iphone.MaBoNho,
-                MaSanPham = dienThoai.MaSanPham
-            };
-            _context.Attach(boNhoSanPham);
-            _context.Entry(boNhoSanPham).State = EntityState.Modified;
-/*            await _context.SaveChangesAsync();
-*/
-
-            /*Add data for ram*/
-            RamSanPham ramSanPham = new RamSanPham()
-            {
-                MaRam = iphone.MaRam,
-                MaSanPham = dienThoai.MaSanPham
-            };
-            _context.Attach(ramSanPham);
-            _context.Entry(ramSanPham).State = EntityState.Modified;
-/*            await _context.SaveChangesAsync();
-*/
-
-            /*Add data for color*/
-            MauSacSanPham mauSacSanPham = new MauSacSanPham()
-            {
-                MaMauSac = iphone.MaMauSac,
-                MaSanPham = dienThoai.MaSanPham
-            };
-            _context.Attach(mauSacSanPham);
-            _context.Entry(mauSacSanPham).State = EntityState.Modified;
-            
-            await _context.SaveChangesAsync();
-
             return RedirectToAction("Index", "Iphone");
         }
 
@@ -218,23 +155,22 @@ namespace WebDT.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int maSanPham)
         {
             var phone = await _context.IPHONE.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var maRam = await _context.RAMSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maRam = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                         .Select(m => m.MaRam).FirstOrDefaultAsync();
-            var maBoNho = await _context.BONHOSANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaBoNho).FirstOrDefaultAsync(); 
-            var maMauSac = await _context.MAUSACSANPHAM.Where(x => x.MaSanPham == maSanPham)
+            var maBoNho = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
+                                    .Select(m => m.MaBoNho).FirstOrDefaultAsync();
+            var maMauSac = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
                                     .Select(m => m.MaMauSac).FirstOrDefaultAsync();
             var images = await _context.HINHANH.Where(x => x.MaSanPham == maSanPham)
                                 .Select(m => m.FileHinhAnh).ToListAsync();
-            /*Get names*/
             var boNho = await _context.BONHO.Where(x => x.MaBoNho == maBoNho).Select(t => t.DungLuongBoNho).FirstOrDefaultAsync();
             var mauSac = await _context.MAUSAC.Where(x => x.MaMauSac == maMauSac).Select(t => t.TenMau).FirstOrDefaultAsync();
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
             var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == phone.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
             var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == phone.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
             var sanPhamDacBiet = await _context.SanPhamDacBiet.Where(x => x.MaSanPhamDacBiet == phone.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
-            IphoneViewModel iphone = new IphoneViewModel() 
-            { 
+            IphoneViewModel iphone = new IphoneViewModel()
+            {
                 Phone = phone,
                 DungLuongBoNho = boNho,
                 TenMauSac = mauSac,

@@ -18,17 +18,37 @@ namespace WebDT.Models
         public int MaThuongHieu { get; set; }
         [ForeignKey("LoaiSanPham")]
         public int MaLoaiSanPham { get; set; }
+
+        /*object*/
+        /*        public BoNho BoNho { get; set; }
+                public MauSac MauSac { get; set; }*/
+        /*        public Ram Ram { get; set; }
+        */
+
+        [ForeignKey("MauSac")]
+        public int MaMauSac { get; set; }
+        public MauSac MauSac { get; set; }
+
+        [ForeignKey("BoNho")]
+        public int MaBoNho { get; set; }
+        public BoNho BoNho { get; set; }
+
+
         [ForeignKey("SanPhamDacBiet")]
         public int MaSanPhamDacBiet { get; set; }
-
         public SanPhamDacBiet SanPhamDacBiet { get; set; }
+
+
+        [ForeignKey("Ram")]
+        public int MaRam { get; set; }
+        public Ram Ram { get; set; }
+
+
         public ThuongHieu ThuongHieu { get; set; }
         public LoaiSanPham LoaiSanPham { get; set; }
         public ICollection<HinhAnh> HinhAnh { get; set; }
 
-        public IList<RamSanPham> RamSanPham { get; set; }
-        public IList<BoNhoSanPham> BoNhoSanPham { get; set; }
-        public IList<MauSacSanPham> MauSacSanPham { get; set; }
+
         public ICollection<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
     }
 }

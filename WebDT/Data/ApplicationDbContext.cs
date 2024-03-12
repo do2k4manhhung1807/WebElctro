@@ -10,7 +10,6 @@ namespace WebDT.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<BoNho> BONHO { get; set; }
-        public DbSet<BoNhoSanPham> BONHOSANPHAM { get; set; }
         public DbSet<HinhAnh> HINHANH { get; set; }
         public DbSet<IMac> IMAC { get; set; }
         public DbSet<Ipad> IPAD { get; set; }
@@ -18,9 +17,7 @@ namespace WebDT.Data
         public DbSet<Laptop> LAPTOP { get; set; }
         public DbSet<LoaiSanPham> LOAISANPHAM { get; set; }
         public DbSet<MauSac> MAUSAC { get; set; }
-        public DbSet<MauSacSanPham> MAUSACSANPHAM { get; set; }
         public DbSet<Ram> RAM { get; set; }
-        public DbSet<RamSanPham> RAMSANPHAM { get; set; }
         public DbSet<ThuongHieu> THUONGHIEU { get; set; }
         public DbSet<SanPham> SANPHAM { get; set; }
         public DbSet<TrangThaiDonHang> TrangThaiDonHang { get; set; }
@@ -50,51 +47,28 @@ namespace WebDT.Data
               .HasForeignKey(s => s.MaThuongHieu);
 
             modelBuilder.Entity<SanPham>()
+                .HasOne<MauSac>(m => m.MauSac)
+                .WithMany(s => s.SanPham)
+                .HasForeignKey(s => s.MaMauSac);
+
+            modelBuilder.Entity<SanPham>()
+                .HasOne<BoNho>(m => m.BoNho)
+                .WithMany(s => s.SanPham)
+                .HasForeignKey(s => s.MaBoNho);
+
+
+
+
+            modelBuilder.Entity<SanPham>()
+                .HasOne<Ram>(m => m.Ram)
+                .WithMany(s => s.SanPham)
+                .HasForeignKey(s => s.MaRam);
+
+            modelBuilder.Entity<SanPham>()
                .HasOne<SanPhamDacBiet>(l => l.SanPhamDacBiet)
                .WithMany(s => s.SanPham)
                .HasForeignKey(s => s.MaSanPhamDacBiet);
 
-            modelBuilder.Entity<BoNhoSanPham>()
-                .HasKey(sc => new { sc.MaSanPham, sc.MaBoNho });
-
-            modelBuilder.Entity<BoNhoSanPham>()
-                .HasOne<SanPham>(sp => sp.SanPham)
-                .WithMany(bn => bn.BoNhoSanPham)
-                .HasForeignKey(m => m.MaSanPham);
-
-
-            modelBuilder.Entity<BoNhoSanPham>()
-                .HasOne<BoNho>(b => b.BoNho)
-                .WithMany(bn => bn.BoNhoSanPham)
-                .HasForeignKey(sc => sc.MaBoNho);
-
-            modelBuilder.Entity<MauSacSanPham>()
-                .HasKey(sc => new { sc.MaSanPham, sc.MaMauSac});
-
-            modelBuilder.Entity<MauSacSanPham>()
-                .HasOne<SanPham>(sp => sp.SanPham)
-                .WithMany(ms => ms.MauSacSanPham)
-                .HasForeignKey(m => m.MaSanPham);
-
-
-            modelBuilder.Entity<MauSacSanPham>()
-                .HasOne<MauSac>(b => b.MauSac)
-                .WithMany(ms => ms.MauSacSanPham)
-                .HasForeignKey(m => m.MaMauSac);
-
-            modelBuilder.Entity<RamSanPham>()
-                .HasKey(sc => new { sc.MaSanPham, sc.MaRam });
-
-            modelBuilder.Entity<RamSanPham>()
-                .HasOne<SanPham>(sp => sp.SanPham)
-                .WithMany(ms => ms.RamSanPham)
-                .HasForeignKey(m => m.MaSanPham);
-
-
-            modelBuilder.Entity<RamSanPham>()
-                .HasOne<Ram>(b => b.Ram)
-                .WithMany(ms => ms.RamSanPham)
-                .HasForeignKey(m => m.MaRam);
 
             modelBuilder.Entity<ChiTietDonHangSanPham>()
                 .HasKey(sc => new { sc.MaSanPham, sc.MaDonHang });

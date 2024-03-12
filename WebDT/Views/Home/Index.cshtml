@@ -18,9 +18,13 @@
 <div class="banner slider">
     <div class="container list">
         <div class="slider-container has-scrollbar">
-            <div class="slider-item item">
-                <img src="~/slider/c4681493001123.5e5965887a8f4.jpg" alt="Sale Phone" class="banner-img">
-            </div>
+            @foreach(var item in Model.HinhAnhQuangCao)
+            {
+                <div class="slider-item item">
+                    <img src="~/slider/@item.FileAnh" alt="Sale Phone" class="banner-img">
+                </div>
+
+            }
         </div>
     </div>
 </div>
@@ -83,7 +87,6 @@
     <!-- Sản phẩm mới nhất -->
     @if (Model != null && Model.SanPhamList != null)
     {
-           
 
         <div class="product-area">
             <p class="title-product">Sản Phẩm Mới</p>
@@ -145,10 +148,10 @@
         <p style="text-decoration:none;">Xem thêm</p>
     </a>
     <!-- Bán chạy -->
+
+
      @if (Model != null && Model.SanPhamList != null)
     {
-           
-
         <div class="product-area">
             <p class="title-product">Bán chạy</p>
             <div class="new-product">
@@ -211,10 +214,9 @@
 
 
     <!-- Yêu thích -->
+
      @if (Model != null && Model.SanPhamList != null)
     {
-           
-
         <div class="product-area">
             <p class="title-product">Yêu thích</p>
             <div class="new-product">
@@ -289,15 +291,15 @@
     <!-- Sản phẩm đặc biệt-->
 @if (Model != null && Model.SanPhamList != null)
 {
-    <div class="product-area">
-        <p class="title-product">Tất cả sản phẩm</p>
-        <div class="new-product">
+    <p class="title-product title">Tất cả sản phẩm</p>
+    <div class="product-area special-area">
+        <div class="new-product special-new-product">
             @{
 
                 int counter = 0;
                 foreach (var item in Model.SanPhamList)
                 {
-                     <a asp-action="Details" asp-controller="SanPham" asp-route-MaSanPham="@item.MaSanPham">
+                     <a asp-action="Details" asp-controller="Home" asp-route-MaSanPham="@item.MaSanPham" class="no-underline">
                     <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                     @if (item.HinhAnh != null && item.HinhAnh.Any())
                         {
@@ -309,18 +311,18 @@
                          }
                         else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
                         {
-                            // Display a default image from HinhAnhList
                             <img src="./Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
                         }
                         else
                         {
-                            // Display a default image
                             <img src="@Url.Content("/Images/no-images.jpg")">
                         }
 
                         <div class="product-info">
                             <p>@(item?.TenSanPham)</p>
-                            <span>@(item?.Gia)</span>   
+
+                            <span style="color: #333333; font-size:15px;">@(item?.Gia)</span>
+
                         </div>
 
                     </div>
@@ -329,7 +331,7 @@
                      
                     if (counter % 6 == 0)
                     {
-                        @:</div><div class="new-product">
+                        @:</div><div class="new-product special-new-product">
                     }
                       
                 }
