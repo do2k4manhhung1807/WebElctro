@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebDT.Models.MauSac>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_DashBoardAdmin";
+}
+
+<h1>Danh sách màu</h1>
+
+<p>
+    <a asp-action="Create">Thêm mới </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên màu 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenMau)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaMauSac">Chỉnh sửa </a> |
+                <a asp-action="Details" asp-route-id="@item.MaMauSac">Chi tiết </a> |
+                <a asp-action="Delete" asp-route-id="@item.MaMauSac">Xóa </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
