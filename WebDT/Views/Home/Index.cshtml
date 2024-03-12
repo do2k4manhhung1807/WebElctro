@@ -42,26 +42,34 @@
     </div>
     <!-- Danh mục thiết bị Apple -->
     <div class="tab-categories">
+       <a asp-controller="Home" asp-action="XemThemSanPhamIphone">
         <div class="item">
             <i class="fa-solid fa-mobile-screen-button"></i>
             <p>Iphone</p>
         </div>
+        </a>
+        <a asp-controller="Home" asp-action="XemThemSanPhamLaptop">
         <div class="item">
             <i class="fa-solid fa-laptop"></i>
-            <p>MacBook</p>
+            <p>Laptop</p>
         </div>
+        </a>
         <div class="item">
             <i class="fa-solid fa-headphones"></i>
             <p>AirPods</p>
         </div>
+        <a asp-controller="Home" asp-action="XemThemSanPhamiMac">
         <div class="item">
             <i class="fa-solid fa-display"></i>
             <p>iMac</p>
         </div>
+         </a>
+        <a asp-controller="Home" asp-action="XemThemSanPhamIpad">
         <div class="item">
             <i class="fa-solid fa-tablet-screen-button"></i>
             <p>iPad</p>
         </div>
+         </a>
         <div class="item">
             <i class="fa-solid fa-paperclip"></i>
             <p>Thiết bị</p>
@@ -73,173 +81,200 @@
     </div>
 
     <!-- Sản phẩm mới nhất -->
-    <div class="product-area">
-        <p class="title-product">Sản Phẩm Mới</p>
-        <div class="new-product">
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-        </div>
+    @if (Model != null && Model.SanPhamList != null)
+    {
+           
 
-    </div>
+        <div class="product-area">
+            <p class="title-product">Sản Phẩm Mới</p>
+            <div class="new-product">
+              
+                  @{
+                     int counter = 0;
+                    foreach (var item in Model.SanPhamList.Where(x => x.MaSanPhamDacBiet == 2).Take(6))
+                    {
+                       
+                            if(item.MaSanPhamDacBiet == 2)
+                            {
+                                 <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
+                                 @if (item.HinhAnh != null && item.HinhAnh.Any())
+                                {
+                                    @foreach (var image in item.HinhAnh)
+                                    {
+                                        <img src="./Images/@image.FileHinhAnh"/>
+                                        break;
+                                    }
+                                 }
+                                else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                                {
+                                    // Display a default image from HinhAnhList
+                                    <img src="./Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
+                                }
+                                else
+                                {
+                                    // Display a default image
+                                    <img src="@Url.Content("/Images/no-images.jpg")">
+                                }
 
-    <div class="see-more-btn">
-        <div class="bg-icon-plus">
+                                <div class="product-info">
+                                    <p>@item.TenSanPham</p>
+                                    <span>@item.Gia</span>
+                                </div>
+                                </div>
+                                counter++;
+                     
+                                if (counter % 6 == 0)
+                                {
+                                    @:</div><div class="new-product">
+                                }
+                            }
+                        }
+                    }
+                    </div>
+
+               
+
+            </div>
+                
+        
+    }
+    <a asp-controller="Home" asp-action="XemThemSanPhamMoi" asp-route-maSanPhamDacBiet="2" class="see-more-btn">
+       <div class="bg-icon-plus">
             <i class="fa-solid fa-plus icon-plus"></i>
-        </div>
-        <p>Xem thêm</p>
-    </div>
+        </div> 
+        <p style="text-decoration:none;">Xem thêm</p>
+    </a>
     <!-- Bán chạy -->
-    <div class="product-area">
-        <p class="title-product">Bán Chạy</p>
-        <div class="new-product">
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-        </div>
+     @if (Model != null && Model.SanPhamList != null)
+    {
+           
 
-    </div>
+        <div class="product-area">
+            <p class="title-product">Bán chạy</p>
+            <div class="new-product">
+              
+                  @{
+                     int counter = 0;
+                    foreach (var item in Model.SanPhamList.Where(x => x.MaSanPhamDacBiet == 3).Take(6))
+                    {
+                       
+                            if(item.MaSanPhamDacBiet == 3)
+                            {
+                                 <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
+                                 @if (item.HinhAnh != null && item.HinhAnh.Any())
+                                {
+                                    @foreach (var image in item.HinhAnh)
+                                    {
+                                        <img src="./Images/@image.FileHinhAnh"/>
+                                        break;
+                                    }
+                                 }
+                                else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                                {
+                                    // Display a default image from HinhAnhList
+                                    <img src="./Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
+                                }
+                                else
+                                {
+                                    // Display a default image
+                                    <img src="@Url.Content("/Images/no-images.jpg")">
+                                }
 
-    <div class="see-more-btn">
-        <div class="bg-icon-plus">
+                                <div class="product-info">
+                                    <p>@item.TenSanPham</p>
+                                    <span>@item.Gia</span>
+                                </div>
+                                </div>
+                                counter++;
+                     
+                                if (counter % 6 == 0)
+                                {
+                                    @:</div><div class="new-product">
+                                }
+                            }
+                        }
+                    }
+                    </div>
+
+               
+
+            </div>
+                
+        
+    }
+    <a asp-controller="Home" asp-action="XemThemSanPhamBanChay" asp-route-maSanPhamDacBiet="3" class="see-more-btn">
+       <div class="bg-icon-plus">
             <i class="fa-solid fa-plus icon-plus"></i>
-        </div>
-        <p>Xem thêm</p>
-    </div>
+        </div> 
+        <p style="text-decoration:none;">Xem thêm</p>
+    </a>
+
+
     <!-- Yêu thích -->
-    <div class="product-area">
-        <p class="title-product">Yêu thích</p>
-        <div class="new-product">
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-            <div class="product">
-                <img src="./assets/images/techzones-macbook-pro-m2-2022-6-edit.jpg">
-                <div class="product-info">
-                    <p>Macbook Pro M2 2022</p>
-                    <span>31.990.000 ₫</span>
-                </div>
-            </div>
-        </div>
+     @if (Model != null && Model.SanPhamList != null)
+    {
+           
 
-    </div>
+        <div class="product-area">
+            <p class="title-product">Yêu thích</p>
+            <div class="new-product">
+              
+                  @{
+                     int counter = 0;
+                    foreach (var item in Model.SanPhamList.Where(x => x.MaSanPhamDacBiet == 4).Take(6))
+                    {
+                       
+                            if(item.MaSanPhamDacBiet == 4)
+                            {
+                                 <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
+                                 @if (item.HinhAnh != null && item.HinhAnh.Any())
+                                {
+                                    @foreach (var image in item.HinhAnh)
+                                    {
+                                        <img src="./Images/@image.FileHinhAnh"/>
+                                        break;
+                                    }
+                                 }
+                                else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                                {
+                                    // Display a default image from HinhAnhList
+                                    <img src="./Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
+                                }
+                                else
+                                {
+                                    // Display a default image
+                                    <img src="@Url.Content("/Images/no-images.jpg")">
+                                }
 
-    <div class="see-more-btn">
-        <div class="bg-icon-plus">
+                                <div class="product-info">
+                                    <p>@item.TenSanPham</p>
+                                    <span>@item.Gia</span>
+                                </div>
+                                </div>
+                                counter++;
+                     
+                                if (counter % 6 == 0)
+                                {
+                                    @:</div><div class="new-product">
+                                }
+                            }
+                        }
+                    }
+                    </div>
+
+               
+
+            </div>
+                
+        
+    }
+
+    <a asp-controller="Home" asp-action="XemThemSanPhamYeuThich" asp-route-maSanPhamDacBiet="4" class="see-more-btn">
+       <div class="bg-icon-plus">
             <i class="fa-solid fa-plus icon-plus"></i>
-        </div>
-        <p>Xem thêm</p>
-    </div>
+        </div> 
+        <p style="text-decoration:none;">Xem thêm</p>
+    </a>
 
     <!-- banner 2 -->
     <div class="banner2">
@@ -266,16 +301,6 @@
                     <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                     @if (item.HinhAnh != null && item.HinhAnh.Any())
                         {
-                            /*
-                             
-                            var firstImage = item.HinhAnh.FirstOrDefault();
-                            if (firstImage != null)
-                            {
-                                <img src="@Url.Content(firstImage.FileHinhAnh)">
-                                    <p>Hiiiiiiiiiii</p>
-                                }
-                            }
-                             */
                             @foreach (var image in item.HinhAnh)
                             {
                                 <img src="./Images/@image.FileHinhAnh"/>
@@ -295,7 +320,7 @@
 
                         <div class="product-info">
                             <p>@(item?.TenSanPham)</p>
-                            <span>@(item?.Gia)</span>
+                            <span>@(item?.Gia)</span>   
                         </div>
 
                     </div>
