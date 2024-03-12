@@ -173,22 +173,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaBoNho");
 
-                    b.ToTable("BONHO");
-                });
-
-            modelBuilder.Entity("WebDT.Models.BoNhoSanPham", b =>
-                {
-                    b.Property<int>("MaSanPham")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaBoNho")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaSanPham", "MaBoNho");
-
-                    b.HasIndex("MaBoNho");
-
-                    b.ToTable("BONHOSANPHAM");
+                    b.ToTable("BoNho");
                 });
 
             modelBuilder.Entity("WebDT.Models.ChiTietDonHangSanPham", b =>
@@ -272,7 +257,7 @@ namespace WebDT.Migrations
                     b.ToTable("HINHANH");
                 });
 
-            modelBuilder.Entity("WebDT.Models.ImageSlider", b =>
+            modelBuilder.Entity("WebDT.Models.HinhAnhQuangCao", b =>
                 {
                     b.Property<int>("MaAnhQuangCao")
                         .ValueGeneratedOnAdd()
@@ -320,22 +305,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaMauSac");
 
-                    b.ToTable("MAUSAC");
-                });
-
-            modelBuilder.Entity("WebDT.Models.MauSacSanPham", b =>
-                {
-                    b.Property<int>("MaSanPham")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaMauSac")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaSanPham", "MaMauSac");
-
-                    b.HasIndex("MaMauSac");
-
-                    b.ToTable("MAUSACSANPHAM");
+                    b.ToTable("MauSac");
                 });
 
             modelBuilder.Entity("WebDT.Models.Ram", b =>
@@ -352,22 +322,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaRam");
 
-                    b.ToTable("RAM");
-                });
-
-            modelBuilder.Entity("WebDT.Models.RamSanPham", b =>
-                {
-                    b.Property<int>("MaSanPham")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaRam")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaSanPham", "MaRam");
-
-                    b.HasIndex("MaRam");
-
-                    b.ToTable("RAMSANPHAM");
+                    b.ToTable("Ram");
                 });
 
             modelBuilder.Entity("WebDT.Models.SanPham", b =>
@@ -381,7 +336,16 @@ namespace WebDT.Migrations
                     b.Property<decimal>("Gia")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("MaBoNho")
+                        .HasColumnType("int");
+
                     b.Property<int>("MaLoaiSanPham")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaMauSac")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaRam")
                         .HasColumnType("int");
 
                     b.Property<int>("MaSanPhamDacBiet")
@@ -407,7 +371,13 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaSanPham");
 
+                    b.HasIndex("MaBoNho");
+
                     b.HasIndex("MaLoaiSanPham");
+
+                    b.HasIndex("MaMauSac");
+
+                    b.HasIndex("MaRam");
 
                     b.HasIndex("MaSanPhamDacBiet");
 
@@ -692,25 +662,6 @@ namespace WebDT.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebDT.Models.BoNhoSanPham", b =>
-                {
-                    b.HasOne("WebDT.Models.BoNho", "BoNho")
-                        .WithMany("BoNhoSanPham")
-                        .HasForeignKey("MaBoNho")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebDT.Models.SanPham", "SanPham")
-                        .WithMany("BoNhoSanPham")
-                        .HasForeignKey("MaSanPham")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BoNho");
-
-                    b.Navigation("SanPham");
-                });
-
             modelBuilder.Entity("WebDT.Models.ChiTietDonHangSanPham", b =>
                 {
                     b.HasOne("WebDT.Models.DonHang", "DonHang")
@@ -760,49 +711,29 @@ namespace WebDT.Migrations
                     b.Navigation("SanPham");
                 });
 
-            modelBuilder.Entity("WebDT.Models.MauSacSanPham", b =>
+            modelBuilder.Entity("WebDT.Models.SanPham", b =>
                 {
+                    b.HasOne("WebDT.Models.BoNho", "BoNho")
+                        .WithMany("SanPham")
+                        .HasForeignKey("MaBoNho")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebDT.Models.LoaiSanPham", "LoaiSanPham")
+                        .WithMany("SanPham")
+                        .HasForeignKey("MaLoaiSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebDT.Models.MauSac", "MauSac")
-                        .WithMany("MauSacSanPham")
+                        .WithMany("SanPham")
                         .HasForeignKey("MaMauSac")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebDT.Models.SanPham", "SanPham")
-                        .WithMany("MauSacSanPham")
-                        .HasForeignKey("MaSanPham")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MauSac");
-
-                    b.Navigation("SanPham");
-                });
-
-            modelBuilder.Entity("WebDT.Models.RamSanPham", b =>
-                {
                     b.HasOne("WebDT.Models.Ram", "Ram")
-                        .WithMany("RamSanPham")
-                        .HasForeignKey("MaRam")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebDT.Models.SanPham", "SanPham")
-                        .WithMany("RamSanPham")
-                        .HasForeignKey("MaSanPham")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ram");
-
-                    b.Navigation("SanPham");
-                });
-
-            modelBuilder.Entity("WebDT.Models.SanPham", b =>
-                {
-                    b.HasOne("WebDT.Models.LoaiSanPham", "LoaiSanPham")
                         .WithMany("SanPham")
-                        .HasForeignKey("MaLoaiSanPham")
+                        .HasForeignKey("MaRam")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -818,7 +749,13 @@ namespace WebDT.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("BoNho");
+
                     b.Navigation("LoaiSanPham");
+
+                    b.Navigation("MauSac");
+
+                    b.Navigation("Ram");
 
                     b.Navigation("SanPhamDacBiet");
 
@@ -827,7 +764,7 @@ namespace WebDT.Migrations
 
             modelBuilder.Entity("WebDT.Models.BoNho", b =>
                 {
-                    b.Navigation("BoNhoSanPham");
+                    b.Navigation("SanPham");
                 });
 
             modelBuilder.Entity("WebDT.Models.DonHang", b =>
@@ -842,25 +779,19 @@ namespace WebDT.Migrations
 
             modelBuilder.Entity("WebDT.Models.MauSac", b =>
                 {
-                    b.Navigation("MauSacSanPham");
+                    b.Navigation("SanPham");
                 });
 
             modelBuilder.Entity("WebDT.Models.Ram", b =>
                 {
-                    b.Navigation("RamSanPham");
+                    b.Navigation("SanPham");
                 });
 
             modelBuilder.Entity("WebDT.Models.SanPham", b =>
                 {
-                    b.Navigation("BoNhoSanPham");
-
                     b.Navigation("ChiTietDonHangSanPham");
 
                     b.Navigation("HinhAnh");
-
-                    b.Navigation("MauSacSanPham");
-
-                    b.Navigation("RamSanPham");
                 });
 
             modelBuilder.Entity("WebDT.Models.SanPhamDacBiet", b =>

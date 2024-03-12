@@ -9,6 +9,6 @@ namespace WebDT.Models
         public int MaRam { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin tên ram")]
         public string TenRam { get; set; }
-        public IList<RamSanPham> RamSanPham { get; set; }
+        public IList<SanPham> SanPham { get; set; }
     }
 }
