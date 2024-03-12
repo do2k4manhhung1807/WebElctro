@@ -120,6 +120,22 @@
                                                     }
                                                 </select>
                                             </div>
+                                            <div>
+                                                <label asp-for="MaSanPhamDacBiet">Sản phẩm đặc biệt</label>
+                                                <select id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
+                                                    @if (ViewBag.SanPhamDacBiet != null)
+                                                    {
+                                                        foreach (var sanPhamDacBiet in ViewBag.SanPhamDacBiet)
+                                                        {
+                                                            <option value="@sanPhamDacBiet.Value">@sanPhamDacBiet.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
 
                                         </div>
                                         @*Upload Image*@
@@ -160,15 +176,11 @@
                                                     <input asp-for="Laptop.CPU" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
-                                                    <label asp-for="Laptop.ManHinh">Màn hình</label>
-                                                    <input asp-for="Laptop.ManHinh" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="details">
-                                                <div class="infor-details-products">
                                                     <label asp-for="Laptop.SoNhanLuong">Số nhân luồng</label>
                                                     <input asp-for="Laptop.SoNhanLuong" type="text">
                                                 </div>
+                                            </div>
+                                            <div class="details">
                                                 <div class="infor-details-products">
                                                     <label asp-for="Laptop.VGA">VGA</label>
                                                     <input asp-for="Laptop.VGA" type="text">
@@ -177,7 +189,11 @@
                                                     <label asp-for="Laptop.TrongLuong">Trọng lượng</label>
                                                     <input asp-for="Laptop.TrongLuong" type="text">
                                                 </div>
-                                            </div>                                  
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Laptop.ManHinh">Màn hình</label>
+                                                    <input asp-for="Laptop.ManHinh" type="text">
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
