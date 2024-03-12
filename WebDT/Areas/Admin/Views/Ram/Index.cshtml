@@ -9,12 +9,11 @@
 
 <p>
     <a asp-action="Create">Thêm mới</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Tên ram 
+                Tên ram
             </th>
             <th></th>
         </tr>
@@ -29,6 +28,7 @@
                 <a asp-action="Edit" asp-route-id="@item.MaRam">Chỉnh sửa</a> |
                 <a asp-action="Details" asp-route-id="@item.MaRam">Chi tiết </a> |
                 <a asp-action="Delete" asp-route-id="@item.MaRam">Xóa</a>
+
             </td>
         </tr>
 }

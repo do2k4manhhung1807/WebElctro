@@ -23,10 +23,12 @@ namespace WebDT.Data
         public DbSet<RamSanPham> RAMSANPHAM { get; set; }
         public DbSet<ThuongHieu> THUONGHIEU { get; set; }
         public DbSet<SanPham> SANPHAM { get; set; }
-        public virtual DbSet<TrangThaiDonHang> TrangThaiDonHang { get; set; }
-        public virtual DbSet<TrangThaiThanhToan> TrangThaiThanhToan { get; set; }
-        public virtual DbSet<DonHang> DonHang { get; set; }
-        public virtual DbSet<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
+        public DbSet<TrangThaiDonHang> TrangThaiDonHang { get; set; }
+        public DbSet<TrangThaiThanhToan> TrangThaiThanhToan { get; set; }
+        public DbSet<DonHang> DonHang { get; set; }
+        public DbSet<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
+        public DbSet<SanPhamDacBiet> SanPhamDacBiet { get; set; }
+        public DbSet<HinhAnhQuangCao> HinhAnhQuangCao { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,7 +49,13 @@ namespace WebDT.Data
               .WithMany(s => s.SanPham)
               .HasForeignKey(s => s.MaThuongHieu);
 
-            modelBuilder.Entity<BoNhoSanPham>().HasKey(sc => new { sc.MaSanPham, sc.MaBoNho });
+            modelBuilder.Entity<SanPham>()
+               .HasOne<SanPhamDacBiet>(l => l.SanPhamDacBiet)
+               .WithMany(s => s.SanPham)
+               .HasForeignKey(s => s.MaSanPhamDacBiet);
+
+            modelBuilder.Entity<BoNhoSanPham>()
+                .HasKey(sc => new { sc.MaSanPham, sc.MaBoNho });
 
             modelBuilder.Entity<BoNhoSanPham>()
                 .HasOne<SanPham>(sp => sp.SanPham)
@@ -60,7 +68,8 @@ namespace WebDT.Data
                 .WithMany(bn => bn.BoNhoSanPham)
                 .HasForeignKey(sc => sc.MaBoNho);
 
-            modelBuilder.Entity<MauSacSanPham>().HasKey(sc => new { sc.MaSanPham, sc.MaMauSac});
+            modelBuilder.Entity<MauSacSanPham>()
+                .HasKey(sc => new { sc.MaSanPham, sc.MaMauSac});
 
             modelBuilder.Entity<MauSacSanPham>()
                 .HasOne<SanPham>(sp => sp.SanPham)
@@ -73,7 +82,8 @@ namespace WebDT.Data
                 .WithMany(ms => ms.MauSacSanPham)
                 .HasForeignKey(m => m.MaMauSac);
 
-            modelBuilder.Entity<RamSanPham>().HasKey(sc => new { sc.MaSanPham, sc.MaRam });
+            modelBuilder.Entity<RamSanPham>()
+                .HasKey(sc => new { sc.MaSanPham, sc.MaRam });
 
             modelBuilder.Entity<RamSanPham>()
                 .HasOne<SanPham>(sp => sp.SanPham)
@@ -86,7 +96,8 @@ namespace WebDT.Data
                 .WithMany(ms => ms.RamSanPham)
                 .HasForeignKey(m => m.MaRam);
 
-            modelBuilder.Entity<ChiTietDonHangSanPham>().HasKey(sc => new { sc.MaSanPham, sc.MaDonHang });
+            modelBuilder.Entity<ChiTietDonHangSanPham>()
+                .HasKey(sc => new { sc.MaSanPham, sc.MaDonHang });
 
             modelBuilder.Entity<ChiTietDonHangSanPham>()
                 .HasOne(sc => sc.SanPham)
@@ -98,6 +109,8 @@ namespace WebDT.Data
                 .WithMany(s => s.ChiTietDonHangSanPham)
                 .HasForeignKey(sc => sc.MaDonHang);
 
+
+
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")
            .HasDiscriminator<int>("SanPham")
@@ -107,14 +120,14 @@ namespace WebDT.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
 
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+/*            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 var tableName = entityType.GetTableName();
                 if (tableName.StartsWith("AspNet"))
                 {
                     entityType.SetTableName(tableName.Substring(6));
                 }
-            }
+            }*/
 
         }
 

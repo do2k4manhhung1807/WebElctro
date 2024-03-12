@@ -7,6 +7,7 @@ using WebDT.ViewModel;
 
 namespace WebDT.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class iMacController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -33,40 +34,42 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.Ram = new SelectList(_context.RAM, "MaRam", "TenRam");
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
-            iMacViewModel imac = new iMacViewModel();
-            return View(imac);
+            ViewBag.SanPhamDacBiet = new SelectList(_context.SanPhamDacBiet, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
+            iMacViewModel ima = new iMacViewModel();
+            return View(ima);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(iMacViewModel imac)
+        public async Task<IActionResult> Create(iMacViewModel ima)
         {
-            if (imac == null || imac.IMac == null)
+            if (ima == null || ima.IMac == null)
             {
-                return View(imac);
+                return View(ima);
             }
 
             /*Add data for iphone*/
             IMac maytinh = new IMac()
             {
-                TenSanPham = imac.IMac.TenSanPham,
-                Mota = imac.IMac.Mota,
-                Gia = imac.IMac.Gia,
-                ManHinh = imac.IMac.ManHinh,
+                TenSanPham = ima.IMac.TenSanPham,
+                Mota = ima.IMac.Mota,
+                Gia = ima.IMac.Gia,
+                ManHinh = ima.IMac.ManHinh,
 
 
 
-                CongNgheCPU = imac.IMac.CongNgheCPU,
-                MaThuongHieu = imac.MaThuongHieu,
-                MaLoaiSanPham = imac.MaLoaiSanPham,
+                MaSanPhamDacBiet = ima.MaSanPhamDacBiet,
+                MaThuongHieu = ima.MaThuongHieu,
+                MaLoaiSanPham = ima.MaLoaiSanPham,
 
-                TocDoCPU = imac.IMac.TocDoCPU,
-                Turbo = imac.IMac.Turbo,
+                CongNgheCPU = ima.IMac.CongNgheCPU,
+                TocDoCPU =  ima.IMac.TocDoCPU,
+                Turbo = ima.IMac.Turbo,
 
             };
             await _context.SANPHAM.AddAsync(maytinh);
             await _context.SaveChangesAsync();
             /*Add data for image table*/
-            foreach (var anh in imac.HinhAnhSanPham)
+            foreach (var anh in ima.HinhAnhSanPham)
             {
                 string tenAnh = UploadFile(anh);
                 HinhAnh hinhAnh = new HinhAnh()
@@ -80,7 +83,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for dungluong*/
             BoNhoSanPham boNhoSanPham = new BoNhoSanPham()
             {
-                MaBoNho = imac.MaBoNho,
+                MaBoNho = ima.MaBoNho,
                 MaSanPham = maytinh.MaSanPham
             };
             await _context.BONHOSANPHAM.AddAsync(boNhoSanPham);
@@ -89,7 +92,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for ram*/
             RamSanPham ramSanPham = new RamSanPham()
             {
-                MaRam = imac.MaRam,
+                MaRam = ima.MaRam,
                 MaSanPham = maytinh.MaSanPham
             };
             await _context.RAMSANPHAM.AddAsync(ramSanPham);
@@ -98,7 +101,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for color*/
             MauSacSanPham mauSacSanPham = new MauSacSanPham()
             {
-                MaMauSac = imac.MaMauSac,
+                MaMauSac = ima.MaMauSac,
                 MaSanPham = maytinh.MaSanPham
             };
             await _context.MAUSACSANPHAM.AddAsync(mauSacSanPham);
@@ -138,7 +141,8 @@ namespace WebDT.Areas.Admin.Controllers
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
             var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == imac.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
             var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == imac.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
-
+            var sanPhamDacBiet = await _context.SanPhamDacBiet.Where(x => x.MaSanPhamDacBiet == imac.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
+            
             iMacViewModel iMac = new iMacViewModel()
             {
                 IMac = imac,
@@ -147,9 +151,10 @@ namespace WebDT.Areas.Admin.Controllers
                 TenRam = ram,
                 TenThuongHieu = thuongHieu,
                 TenLoaiSanPham = loaiSanPham,
+                LoaiSanPhamDacBiet = sanPhamDacBiet,
                 TenHinhAnh = images
             };
-            return View();
+            return View(iMac);
         }
 
         [HttpGet]

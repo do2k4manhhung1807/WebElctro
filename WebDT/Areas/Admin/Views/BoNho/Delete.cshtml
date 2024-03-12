@@ -8,6 +8,7 @@
 <h1>Xóa </h1>
 
 <h3>Bạn có chắc chắn muốn xóa không?</h3>
+
 <div>
     <h4>BoNho</h4>
     <hr />
@@ -23,6 +24,8 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="MaBoNho" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
+
         <a asp-action="Index">Trở về </a>
+
     </form>
 </div>

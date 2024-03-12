@@ -14,16 +14,17 @@ namespace WebDT.Models
         public string ManHinh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin mô tả")]
         public string Mota { get; set; }
-        public int MaThuongHieu { get; set; }
-        public virtual ThuongHieu ThuongHieu { get; set; }
-        //public Boolean? SanPhamMoi { get; set; }
-        //public Boolean? YeuThich { get; set; }
-        //public Boolean? BanChay { get; set; }
-        public ICollection<HinhAnh> HinhAnh { get; set; }
 
+        public int MaThuongHieu { get; set; }
         [ForeignKey("LoaiSanPham")]
         public int MaLoaiSanPham { get; set; }
-        public virtual LoaiSanPham LoaiSanPham { get; set; }
+        [ForeignKey("SanPhamDacBiet")]
+        public int MaSanPhamDacBiet { get; set; }
+
+        public SanPhamDacBiet SanPhamDacBiet { get; set; }
+        public ThuongHieu ThuongHieu { get; set; }
+        public LoaiSanPham LoaiSanPham { get; set; }
+        public ICollection<HinhAnh> HinhAnh { get; set; }
 
         public IList<RamSanPham> RamSanPham { get; set; }
         public IList<BoNhoSanPham> BoNhoSanPham { get; set; }

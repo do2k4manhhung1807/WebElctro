@@ -5,7 +5,6 @@
     Layout = "_DashBoardAdmin";
 }
 
-<h1>Thêm </h1>
 
 <h4>Ram</h4>
 <hr />
@@ -26,6 +25,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Trở về</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

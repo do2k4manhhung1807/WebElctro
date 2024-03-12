@@ -9,7 +9,6 @@ using WebDT.ViewModel;
 
 namespace WebDT.Areas.Admin.Controllers
 {
-
     [Area("Admin")]
     public class IphoneController : Controller
     {
@@ -38,6 +37,7 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.Ram = new SelectList(_context.RAM, "MaRam", "TenRam");
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
+            ViewBag.SanPhamDacBiet = new SelectList(_context.SanPhamDacBiet, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
             IphoneViewModel iphone = new IphoneViewModel();
             return View(iphone);
         }
@@ -49,7 +49,7 @@ namespace WebDT.Areas.Admin.Controllers
             {
                 return View(iphone);
             }
-
+            
             /*Add data for iphone*/
             Iphone dienThoai = new Iphone()
             {
@@ -59,8 +59,8 @@ namespace WebDT.Areas.Admin.Controllers
                 ManHinh = iphone.Phone.ManHinh,
 
 
-
                 Chip = iphone.Phone.Chip,
+                MaSanPhamDacBiet = iphone.MaSanPhamDacBiet,
                 MaThuongHieu = iphone.MaThuongHieu,
                 MaLoaiSanPham = iphone.MaLoaiSanPham,
 
@@ -69,6 +69,7 @@ namespace WebDT.Areas.Admin.Controllers
                 CameraSau = iphone.Phone.CameraSau,
                 Pin = iphone.Phone.Pin
             };
+           
             await _context.SANPHAM.AddAsync(dienThoai);
             await _context.SaveChangesAsync();
             /*Add data for image table*/
@@ -177,24 +178,6 @@ namespace WebDT.Areas.Admin.Controllers
             _context.Entry(dienThoai).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            /*Add data for image table*//*
-            foreach (var anh in iphone.HinhAnhSanPham)
-            {
-                string tenAnh = UploadFile(anh);
-                var maHinhAnh = _context.HINHANH.Where(x => x.MaSanPham == dienThoai.MaSanPham).Select(m => m.MaHinhAnh).FirstOrDefault();
-                HinhAnh hinhAnh = new HinhAnh()
-                {
-*//*                    MaHinhAnh = maHinhAnh,
-*//*                    FileHinhAnh = tenAnh,
-                    MaSanPham = dienThoai.MaSanPham
-                };
-                _context.Attach(hinhAnh);
-                _context.Entry(hinhAnh).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-
-            }*/
-
-
             /*Add data for dungluong*/
             BoNhoSanPham boNhoSanPham = new BoNhoSanPham()
             {
@@ -234,7 +217,6 @@ namespace WebDT.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int maSanPham)
         {
-            var dienThoai = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
             var phone = await _context.IPHONE.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
             var maRam = await _context.RAMSANPHAM.Where(x => x.MaSanPham == maSanPham)
                                         .Select(m => m.MaRam).FirstOrDefaultAsync();
@@ -250,7 +232,7 @@ namespace WebDT.Areas.Admin.Controllers
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
             var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == phone.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
             var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == phone.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
-
+            var sanPhamDacBiet = await _context.SanPhamDacBiet.Where(x => x.MaSanPhamDacBiet == phone.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
             IphoneViewModel iphone = new IphoneViewModel() 
             { 
                 Phone = phone,
@@ -259,6 +241,7 @@ namespace WebDT.Areas.Admin.Controllers
                 TenRam = ram,
                 TenThuongHieu = thuongHieu,
                 TenLoaiSanPham = loaiSanPham,
+                LoaiSanPhamDacBiet = sanPhamDacBiet,
                 TenHinhAnh = images
             };
             return View(iphone);

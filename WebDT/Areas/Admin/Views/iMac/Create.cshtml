@@ -44,12 +44,12 @@
                                                     {
                                                         foreach (var thuongHieu in ViewBag.ThuongHieu)
                                                         {
-                                                    <option value="@thuongHieu.Value">@thuongHieu.Text</option>
+                                                            <option value="@thuongHieu.Value">@thuongHieu.Text</option>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                    <option value="">No data available</option>
+                                                        <option value="">No data available</option>
                                                     }
                                                 </select>
                                             </div>
@@ -60,12 +60,12 @@
                                                     {
                                                         foreach (var loaiSanPham in ViewBag.LoaiSanPham)
                                                         {
-                                                    <option value="@loaiSanPham.Value">@loaiSanPham.Text</option>
+                                                            <option value="@loaiSanPham.Value">@loaiSanPham.Text</option>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                    <option value="">No data available</option>
+                                                        <option value="">No data available</option>
                                                     }
                                                 </select>
                                             </div>
@@ -77,12 +77,12 @@
                                                     {
                                                         foreach (var ram in ViewBag.Ram)
                                                         {
-                                                    <option value="@ram.Value">@ram.Text</option>
+                                                            <option value="@ram.Value">@ram.Text</option>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                    <option value="">No data available</option>
+                                                        <option value="">No data available</option>
                                                     }
                                                 </select>
                                             </div>
@@ -94,12 +94,12 @@
                                                     {
                                                         foreach (var boNho in ViewBag.BoNho)
                                                         {
-                                                    <option value="@boNho.Value">@boNho.Text</option>
+                                                            <option value="@boNho.Value">@boNho.Text</option>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                    <option value="">No data available</option>
+                                                        <option value="">No data available</option>
                                                     }
                                                 </select>
                                             </div>
@@ -111,12 +111,28 @@
                                                     {
                                                         foreach (var mauSac in ViewBag.MauSac)
                                                         {
-                                                    <option value="@mauSac.Value">@mauSac.Text</option>
+                                                            <option value="@mauSac.Value">@mauSac.Text</option>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                    <option value="">No data available</option>
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label asp-for="MaSanPhamDacBiet">Sản phẩm đặc biệt</label>
+                                                <select id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
+                                                    @if (ViewBag.SanPhamDacBiet != null)
+                                                    {
+                                                        foreach (var mauSac in ViewBag.SanPhamDacBiet)
+                                                        {
+                                                            <option value="@mauSac.Value">@mauSac.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
                                                     }
                                                 </select>
                                             </div>

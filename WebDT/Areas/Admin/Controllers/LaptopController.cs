@@ -34,41 +34,44 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.Ram = new SelectList(_context.RAM, "MaRam", "TenRam");
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
-            LaptopViewModel laptop = new LaptopViewModel();
-            return View(laptop);
+            ViewBag.SanPhamDacBiet = new SelectList(_context.SanPhamDacBiet, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
+            LaptopViewModel lap = new LaptopViewModel();
+            return View(lap);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(LaptopViewModel laptop)
+        public async Task<IActionResult> Create(LaptopViewModel lap)
         {
-            if (laptop == null || laptop.Laptop == null)
+            if (lap == null || lap.Laptop == null)
             {
-                return View(laptop);
+                return View(lap);
             }
 
             /*Add data for iphone*/
             Laptop mayTinhBang = new Laptop()
             {
-                TenSanPham = laptop.Laptop.TenSanPham,
-                Mota = laptop.Laptop.Mota,
-                Gia = laptop.Laptop.Gia,
-                ManHinh = laptop.Laptop.ManHinh,
+                TenSanPham = lap.Laptop.TenSanPham,
+                Mota = lap.Laptop.Mota,
+                Gia = lap.Laptop.Gia,
+
+                ManHinh = lap.Laptop.ManHinh,
+                CPU = lap.Laptop.CPU,
+                SoNhanLuong = lap.Laptop.SoNhanLuong,
+                VGA = lap.Laptop.VGA,
+                TrongLuong = lap.Laptop.TrongLuong,
 
 
 
-                CPU = laptop.Laptop.CPU,
-                MaThuongHieu = laptop.MaThuongHieu,
-                MaLoaiSanPham = laptop.MaLoaiSanPham,
+                MaThuongHieu = lap.MaThuongHieu,
+                MaLoaiSanPham = lap.MaLoaiSanPham,
+                MaSanPhamDacBiet = lap.MaSanPhamDacBiet,
 
-                SoNhanLuong = laptop.Laptop.SoNhanLuong,
-                VGA = laptop.Laptop.VGA,
-                TrongLuong = laptop.Laptop.TrongLuong,
 
             };
             await _context.SANPHAM.AddAsync(mayTinhBang);
             await _context.SaveChangesAsync();
             /*Add data for image table*/
-            foreach (var anh in laptop.HinhAnhSanPham)
+            foreach (var anh in lap.HinhAnhSanPham)
             {
                 string tenAnh = UploadFile(anh);
                 HinhAnh hinhAnh = new HinhAnh()
@@ -82,7 +85,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for dungluong*/
             BoNhoSanPham boNhoSanPham = new BoNhoSanPham()
             {
-                MaBoNho = laptop.MaBoNho,
+                MaBoNho = lap.MaBoNho,
                 MaSanPham = mayTinhBang.MaSanPham
             };
             await _context.BONHOSANPHAM.AddAsync(boNhoSanPham);
@@ -91,7 +94,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for ram*/
             RamSanPham ramSanPham = new RamSanPham()
             {
-                MaRam = laptop.MaRam,
+                MaRam = lap.MaRam,
                 MaSanPham = mayTinhBang.MaSanPham
             };
             await _context.RAMSANPHAM.AddAsync(ramSanPham);
@@ -100,7 +103,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for color*/
             MauSacSanPham mauSacSanPham = new MauSacSanPham()
             {
-                MaMauSac = laptop.MaMauSac,
+                MaMauSac = lap.MaMauSac,
                 MaSanPham = mayTinhBang.MaSanPham
             };
             await _context.MAUSACSANPHAM.AddAsync(mauSacSanPham);
@@ -140,7 +143,7 @@ namespace WebDT.Areas.Admin.Controllers
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
             var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == computer.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
             var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == computer.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
-
+            var sanPhamDacBiet = await _context.SanPhamDacBiet.Where(x => x.MaSanPhamDacBiet == computer.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
             LaptopViewModel laptop = new LaptopViewModel()
             {
                 Laptop = computer,
@@ -149,6 +152,7 @@ namespace WebDT.Areas.Admin.Controllers
                 TenRam = ram,
                 TenThuongHieu = thuongHieu,
                 TenLoaiSanPham = loaiSanPham,
+                LoaiSanPhamDacBiet = sanPhamDacBiet,
                 TenHinhAnh = images
             };
             return View(laptop);
