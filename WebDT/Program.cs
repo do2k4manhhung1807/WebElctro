@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
@@ -19,12 +19,17 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-/*builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-*/
-builder.Services.AddDefaultIdentity<User>()
-      .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
 
+/*builder.Services.AddDefaultIdentity<User>()
+      .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();*/
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+/*builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+*/
 builder.Services.Configure<IdentityOptions>(options => {
     // Thiết lập về Password
     options.Password.RequireDigit = false;

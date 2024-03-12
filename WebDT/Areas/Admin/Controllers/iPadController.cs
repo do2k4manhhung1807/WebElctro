@@ -34,39 +34,40 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.Ram = new SelectList(_context.RAM, "MaRam", "TenRam");
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
-            iPadViewModel ipad = new iPadViewModel();
-            return View(ipad);
+            ViewBag.SanPhamDacBiet = new SelectList(_context.SanPhamDacBiet, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
+            iPadViewModel ip = new iPadViewModel();
+            return View(ip);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(iPadViewModel ipad)
+        public async Task<IActionResult> Create(iPadViewModel ip)
         {
-            if (ipad == null || ipad.Ipad == null)
+            if (ip == null || ip.Ipad == null)
             {
-                return View(ipad);
+                return View(    );
             }
 
             /*Add data for iphone*/
             Ipad ipa = new Ipad()
             {
-                TenSanPham = ipad.Ipad.TenSanPham,
-                Mota = ipad.Ipad.Mota,
-                Gia = ipad.Ipad.Gia,
-                ManHinh = ipad.Ipad.ManHinh,
+                TenSanPham = ip.Ipad.TenSanPham,
+                Mota = ip.Ipad.Mota,
+                Gia = ip.Ipad.Gia,
+                ManHinh = ip.Ipad.ManHinh,
 
 
+                MaSanPhamDacBiet = ip.MaSanPhamDacBiet,
+                MaThuongHieu = ip.MaThuongHieu,
+                MaLoaiSanPham = ip.MaLoaiSanPham,
 
-                MaThuongHieu = ipad.MaThuongHieu,
-                MaLoaiSanPham = ipad.MaLoaiSanPham,
-
-                DoPhanGiai = ipad.Ipad.DoPhanGiai,
-                CongNgheManHinh = ipad.Ipad.CongNgheManHinh,
-                KichThuocVatLy = ipad.Ipad.KichThuocVatLy
+                DoPhanGiai = ip.Ipad.DoPhanGiai,
+                CongNgheManHinh = ip.Ipad.CongNgheManHinh,
+                KichThuocVatLy = ip.Ipad.KichThuocVatLy
             };
             await _context.SANPHAM.AddAsync(ipa);
             await _context.SaveChangesAsync();
             /*Add data for image table*/
-            foreach (var anh in ipad.HinhAnhSanPham)
+            foreach (var anh in ip.HinhAnhSanPham)
             {
                 string tenAnh = UploadFile(anh);
                 HinhAnh hinhAnh = new HinhAnh()
@@ -80,7 +81,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for dungluong*/
             BoNhoSanPham boNhoSanPham = new BoNhoSanPham()
             {
-                MaBoNho = ipad.MaBoNho,
+                MaBoNho = ip.MaBoNho,
                 MaSanPham = ipa.MaSanPham
             };
             await _context.BONHOSANPHAM.AddAsync(boNhoSanPham);
@@ -89,7 +90,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for ram*/
             RamSanPham ramSanPham = new RamSanPham()
             {
-                MaRam = ipad.MaRam,
+                MaRam = ip.MaRam,
                 MaSanPham = ipa.MaSanPham
             };
             await _context.RAMSANPHAM.AddAsync(ramSanPham);
@@ -98,7 +99,7 @@ namespace WebDT.Areas.Admin.Controllers
             /*Add data for color*/
             MauSacSanPham mauSacSanPham = new MauSacSanPham()
             {
-                MaMauSac = ipad.MaMauSac,
+                MaMauSac = ip.MaMauSac,
                 MaSanPham = ipa.MaSanPham
             };
             await _context.MAUSACSANPHAM.AddAsync(mauSacSanPham);
@@ -139,6 +140,7 @@ namespace WebDT.Areas.Admin.Controllers
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
             var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == ipad.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
             var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == ipad.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
+            var sanPhamDacBiet = await _context.SanPhamDacBiet.Where(x => x.MaSanPhamDacBiet == ipad.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
 
             iPadViewModel ipa = new iPadViewModel()
             {
@@ -148,6 +150,7 @@ namespace WebDT.Areas.Admin.Controllers
                 TenRam = ram,
                 TenThuongHieu = thuongHieu,
                 TenLoaiSanPham = loaiSanPham,
+                LoaiSanPhamDacBiet = sanPhamDacBiet,
                 TenHinhAnh = images
             };
 

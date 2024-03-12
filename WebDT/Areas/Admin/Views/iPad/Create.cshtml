@@ -120,6 +120,22 @@
                                                     }
                                                 </select>
                                             </div>
+                                            <div>
+                                                <label asp-for="MaSanPhamDacBiet">Sản phẩm đặc biệt</label>
+                                                <select id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
+                                                    @if (ViewBag.SanPhamDacBiet != null)
+                                                    {
+                                                        foreach (var mauSac in ViewBag.SanPhamDacBiet)
+                                                        {
+                                                            <option value="@mauSac.Value">@mauSac.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
 
                                         </div>
                                         @*Upload Image*@

@@ -1,4 +1,4 @@
-﻿@model List<WebDT.Models.Ipad>;
+﻿@model List<WebDT.Models.IMac>;
 @{
     Layout = "_DashBoardAdmin";
 }
@@ -9,7 +9,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Danh sách iPad</h6>
+                    <h6>Danh sách iMac</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -21,7 +21,7 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giá </th>
                                     <th class="text-secondary opacity-7"></th>
                                     <th>
-                                        <a asp-area="Admin" asp-controller="iPad" asp-action="Create">
+                                        <a asp-area="Admin" asp-controller="iMac" asp-action="Create">
                                             <i class="fa-solid fa-plus"></i>
                                         </a>
                                     </th>
@@ -52,13 +52,13 @@
                                         </td>
 
                                         <td class="align-middle">
-                                            <a asp-area="Admin" asp-controller="iPad" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Details
                                             </a> |
-                                            <a asp-area="Admin" asp-controller="iPad" asp-action="Edit" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Edit" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Edit
                                             </a> |
-                                            <a asp-area="Admin" asp-controller="iPad" asp-action="Delete" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Delete" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Delete
                                             </a>
                                         </td>
@@ -76,12 +76,6 @@
 
                 </div>
             </div>
-        </div>
-    </div>
-
-</div>
-
-
         </div>
     </div>
 
