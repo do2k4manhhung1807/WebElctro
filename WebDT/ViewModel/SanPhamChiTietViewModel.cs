@@ -4,6 +4,7 @@ namespace WebDT.ViewModel
 {
     public class SanPhamChiTietViewModel
     {
+
         public SanPham SanPham { get; set; }    
         public Iphone Iphone { get; set; }  
         public Ipad Ipad { get; set; }
@@ -14,6 +15,12 @@ namespace WebDT.ViewModel
         public Ram Ram { get; set; }
         public MauSac MauSac { get; set; }
         public BoNho BoNho { get; set; }
+
+
+        public List<Iphone> Iphone { get; set; }  
+        public List<Ipad> Ipad { get; set; }
+        public List<IMac> IMac { get; set; }
+        public List<Laptop> Laptop { get; set; }
 
         public List<SanPham> SanPhamList { get; set; }
         public List<HinhAnh> HinhAnhList { get; set; }
