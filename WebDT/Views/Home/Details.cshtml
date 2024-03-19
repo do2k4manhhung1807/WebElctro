@@ -43,25 +43,27 @@
                             <p class="select-title">Chọn dung lượng</p>
                             <div class="selection">
                                 @foreach (var sanPham in Model.SanPhamList)
-                                {
-                                if (sanPham.MaMauSac == Model.SanPham.MaMauSac)
-                                {
-                                var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
+                               {
+                                    if (sanPham.MaMauSac == Model.SanPham.MaMauSac)
+                                    {
+                                    var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
 
-                                <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                    <div class="select-item">
-                                        <div class="content-item">@boNho.DungLuongBoNho</div>
+                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
+                                        <div class="select-item">
+                                            <div class="content-item">@boNho.DungLuongBoNho</div>
+                                        </div>
+                                    </a>
+
+                                    }
+                               }
+                               <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@Model.SanPham.MaSanPham" style="text-decoration:none;">
+                                    <div style="margin-top:50px;">
+                                        <button class="btn-add-cart">THÊM VÀO GIỎ HÀNG</button>
                                     </div>
-                                </a>
-
-                                }
-
-                                }
+                               </a>
                             </div>
-
-                            <div style="margin-top:50px;">
-                                <button class="btn-add-cart">THÊM VÀO GIỎ HÀNG</button>
-                            </div>
+                            
+                            
                         </div>
                         <div class="service-infor">
                             <p class="service-title">Tư vấn & Mua hàng - Gọi 1900 0000</p>

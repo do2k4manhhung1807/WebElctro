@@ -127,6 +127,7 @@
                                       </div>
                                   </a>
 
+
                                 counter++;
                      
                                 if (counter % 6 == 0)
@@ -187,6 +188,7 @@
                                         <img src="@Url.Content("/Images/no-images.jpg")">
                                     }
 
+
                                     <div class="product-info">
                                         <p>@item.TenSanPham</p>
                                         <span style="color:black;">@item.Gia</span>
@@ -231,13 +233,13 @@
                     int counter = 0;
                     foreach (var item in Model.SanPhamList.Where(x => x.MaSanPhamDacBiet == 4).Take(6))
                     {
-
                         if (item.MaSanPhamDacBiet == 4)
                         {
                             <a asp-action="Details" asp-controller="Home" asp-route-MaSanPham="@item.MaSanPham" class="no-underline">
 
                                 <div class="product product-square @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                                     @if (item.HinhAnh != null && item.HinhAnh.Any())
+
                                     {
                                         @foreach (var image in item.HinhAnh)
                                         {

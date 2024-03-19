@@ -29,6 +29,7 @@
                             if(item.MaSanPhamDacBiet == 3)
                             {
                               <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@item.MaSanPham" style="text-decoration:none;">
+
                                  <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                                  @if (item.HinhAnh != null && item.HinhAnh.Any())
                                 {
@@ -56,6 +57,7 @@
                                 </div>
 
                               </a>
+
                                 counter++;
                      
                                 if (counter % 6 == 0)
