@@ -11,11 +11,11 @@ using WebDT.Models;
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class RamController : Controller
+    public class TrangThaiThanhToanController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public RamController(ApplicationDbContext context)
+        public TrangThaiThanhToanController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,26 +23,10 @@ namespace WebDT.Areas.Admin.Controllers
         // GET: Ram
         public async Task<IActionResult> Index()
         {
-            return View(await _context.RAM.ToListAsync());
+            return View(await _context.TrangThaiThanhToan.ToListAsync());
         }
 
-        // GET: Ram/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var ram = await _context.RAM
-                .FirstOrDefaultAsync(m => m.MaRam == id);
-            if (ram == null)
-            {
-                return NotFound();
-            }
-
-            return View(ram);
-        }
+    
 
         // GET: Ram/Create
         public IActionResult Create()
@@ -55,11 +39,11 @@ namespace WebDT.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaRam,TenRam")] Ram ram)
+        public async Task<IActionResult> Create([Bind("MaTrangThaiDonHang, TenTrangThaiDonHang")] TrangThaiThanhToan trangThai)
         {
-            _context.Add(ram);
+            _context.Add(trangThai);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Ram");
+            return RedirectToAction("Index", "TrangThaiThanhToan");
 
         }
 
@@ -71,12 +55,12 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.RAM.FindAsync(id);
-            if (ram == null)
+            var trangThai = await _context.TrangThaiThanhToan.FindAsync(id);
+            if (trangThai == null)
             {
                 return NotFound();
             }
-            return View(ram);
+            return View(trangThai);
         }
 
         // POST: Ram/Edit/5
@@ -84,22 +68,22 @@ namespace WebDT.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaRam,TenRam")] Ram ram)
+        public async Task<IActionResult> Edit(int id, [Bind("MaTrangThaiDonHang, TenTrangThaiDonHang")] TrangThaiThanhToan trangThai)
         {
-            if (id != ram.MaRam)
+            if (id != trangThai.MaTrangThaiDonHang)
             {
                 return NotFound();
             }
 
-          
+           
                 try
                 {
-                    _context.Update(ram);
+                    _context.Update(trangThai);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RamExists(ram.MaRam))
+                    if (!TrangThaiThanhToanExists(trangThai.MaTrangThaiDonHang))
                     {
                         return NotFound();
                     }
@@ -110,7 +94,7 @@ namespace WebDT.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             
-            return View(ram);
+            return View(trangThai);
         }
 
         // GET: Ram/Delete/5
@@ -121,14 +105,14 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.RAM
-                .FirstOrDefaultAsync(m => m.MaRam == id);
-            if (ram == null)
+            var trangThai = await _context.TrangThaiThanhToan
+                .FirstOrDefaultAsync(m => m.MaTrangThaiDonHang == id);
+            if (trangThai == null)
             {
                 return NotFound();
             }
 
-            return View(ram);
+            return View(trangThai);
         }
 
         // POST: Ram/Delete/5
@@ -136,19 +120,19 @@ namespace WebDT.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ram = await _context.RAM.FindAsync(id);
-            if (ram != null)
+            var trangThai = await _context.TrangThaiThanhToan.FindAsync(id);
+            if (trangThai != null)
             {
-                _context.RAM.Remove(ram);
+                _context.TrangThaiThanhToan.Remove(trangThai);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RamExists(int id)
+        private bool TrangThaiThanhToanExists(int id)
         {
-            return _context.RAM.Any(e => e.MaRam == id);
+            return _context.TrangThaiThanhToan.Any(e => e.MaTrangThaiDonHang == id);
         }
     }
 }
