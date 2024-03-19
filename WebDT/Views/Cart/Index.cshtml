@@ -92,6 +92,7 @@
                                                 </h6>
                                             </div>
                                         </div>
+                                    </div>
                                 </tr>
 
                             }
@@ -102,114 +103,102 @@
                 {
 
                     <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h5 class="mb-0">Kiểm tra thông tin</h5>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-
-                                            <ul class="list-group list-group-flush">
-                                                @foreach (var item in Model.CartItems)
-                                                {
-                                                    <li class="list-group-item">
-                                                        <h5 class="mb-0">@item.TenSanPham (@item.Soluong)</h5>
-
-                                                    </li>
-                                                }
-                                                <li class="list-group-item">
-                                                    <h5 class="mb-0">Tổng số lượng: @Model.TongSoLuongHienThi.ToString()</h5>
-                                                    <h5 class="mb-0">Tổng tiền: @Model.GrandTotal.ToString()</h5>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip" asp-action="Clear" title="Remove item">
-                                            Xóa tất cả
-                                        </a>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="pt-5">
-                                                <h6 class="mb-0">
-                                                    <a href="@Url.Action("Index", "Home")" class="text-body">
-                                                        <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                                                    </a>
-                                                </h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                                <div class="pt-5 text-end">
-@*                                                     <button type="submit" class="btn btn-dark btn-lg" data-mdb-ripple-color="dark">
-                                                        Xác nhận
-                                                    </button> *@
-                                                </div>
-                                        </div>
-
-                                    </div>
-                                </div>
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Kiểm tra thông tin</h5>
                             </div>
-                            <div class="container-fluid py-4">
+
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="card mb-4">
-                                            <div class="card-header pb-0">
-                                                <h6>Thông tin khách hàng</h6>
-                                            </div>
-                                            <div class="card-body px-0 pt-0 pb-2">
-                                                <div class="table-responsive p-0">
-                                                    <table class="table align-items-center height-table">
-                                                        <!-- <table class="table align-items-center mb-12"> -->
-                                                        <div class="product-infor">
-                                                            <div class="product-details-infor">
-                                                                <div class="general-infor set-background">
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.TenKhachHang">Tên khách hàng</label>
-                                                                        <input asp-for="DonHang.TenKhachHang" type="text">
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.DiaChi">Địa chỉ</label>
-                                                                        <input asp-for="DonHang.DiaChi" type="text">
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.SoDienThoai">Số điện thoại</label>
-                                                                        <input asp-for="DonHang.SoDienThoai" type="text">
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.YeuCauKhac">Yêu cầu khác</label>
-                                                                        <input asp-for="DonHang.YeuCauKhac" type="text">
-                                                                    </div>
+
+                                        <ul class="list-group list-group-flush">
+                                            @foreach (var item in Model.CartItems)
+                                            {
+                                                <li class="list-group-item">
+                                                    <h5 class="mb-0">@item.TenSanPham (@item.Soluong)</h5>
+
+                                                </li>
+                                            }
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">Tổng số lượng: @Model.TongSoLuongHienThi.ToString()</h5>
+                                                <h5 class="mb-0">Tổng tiền: @Model.GrandTotal.ToString()</h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip" asp-action="Clear" title="Remove item">
+                                        Xóa tất cả
+                                    </a>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="pt-5">
+                                            <h6 class="mb-0">
+                                                <a href="@Url.Action("Index", "Home")" class="text-body">
+                                                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
+                                                </a>
+                                            </h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="pt-5 text-end">
+                                                <button type="submit" class="btn btn-dark btn-lg" data-mdb-ripple-color="dark">
+                                                    Xác nhận
+                                                </button> 
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid py-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header pb-0">
+                                            <h6>Thông tin khách hàng</h6>
+                                        </div>
+                                        <div class="card-body px-0 pt-0 pb-2">
+                                            <div class="table-responsive p-0">
+                                                <table class="table align-items-center height-table">
+                                                    <!-- <table class="table align-items-center mb-12"> -->
+                                                    <div class="product-infor">
+                                                        <div class="product-details-infor">
+                                                            <div class="general-infor set-background">
+                                                                <div class="infor-customer">
+                                                                    <label asp-for="DonHang.TenKhachHang">Tên khách hàng</label>
+                                                                    <input asp-for="DonHang.TenKhachHang" type="text">
+                                                                </div>
+                                                                <div class="infor-customer">
+                                                                    <label asp-for="DonHang.DiaChi">Địa chỉ</label>
+                                                                    <input asp-for="DonHang.DiaChi" type="text">
+                                                                </div>
+                                                                <div class="infor-customer">
+                                                                    <label asp-for="DonHang.SoDienThoai">Số điện thoại</label>
+                                                                    <input asp-for="DonHang.SoDienThoai" type="text">
+                                                                </div>
+                                                                <div class="infor-customer">
+                                                                    <label asp-for="DonHang.YeuCauKhac">Yêu cầu khác</label>
+                                                                    <input asp-for="DonHang.YeuCauKhac" type="text">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </table>
-                                                </div>
+                                                    </div>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+                        </div>
                     </div>
 
                 }
             </div>
-
-            <button type="submit" class="btn btn-dark btn-lg" data-mdb-ripple-color="dark">
-                Xác nhận
-            </button>
-        </form>
-
-
-        
-                                       
-                                
-                   
+        </div>
+    </form>
 </body>
-
 </html>
-

@@ -20,69 +20,56 @@ namespace WebDT.Controllers
         public IActionResult Index()
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); // neu co du lieu thi hien thi con khong se tao moi 1 list 
-            CartItemViewModel cartVM = new()
+            DonHang donHang = new DonHang();
+
+            CartItemViewModel cartVM = new CartItemViewModel
             {
                 CartItems = cartItems,
-                GrandTotal = cartItems.Sum(x => x.Soluong* x.Gia),//Tinh tong
+                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia),
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
-
+                DonHang = donHang
             };
             return View(cartVM);
         }
 
         [HttpPost]
-        public IActionResult Index(CartItemViewModel donHang)
+        public async Task<IActionResult> Index(CartItemViewModel cartVM)
         {
-            if (donHang.DonHang.SoDienThoai == null) 
+            if (cartVM == null || cartVM.DonHang == null)
             {
                 return NotFound();
             }
+            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); // neu co du lieu thi hien thi con khong se tao moi 1 list 
+            if (cartItems == null)
+            {
+                return NotFound();
+            }
+            cartVM.DonHang.MaTrangThaiDonHang = 1;
+            cartVM.DonHang.MaTrangThaiThanhToan = 1;
+            cartVM.DonHang.NgayLapDonHang = DateTime.Now;
+            DonHang donHang = cartVM.DonHang;
+            
+            await _dataContext.DonHang.AddAsync(donHang);
+            await _dataContext.SaveChangesAsync();
+            
+            foreach(var sanPham in cartItems)
+            {
+                ChiTietDonHangSanPham ctDonHang = new ChiTietDonHangSanPham()
+                {
+                    MaDonHang = donHang.MaDonHang,
+                    MaSanPham = sanPham.MaSanPham,
+                    SoluongMua = sanPham.Soluong
+                };
+                await _dataContext.ChiTietDonHangSanPham.AddAsync(ctDonHang);
+                await _dataContext.SaveChangesAsync();
+            }
 
 
-            return RedirectToAction("Iphone","Index");
+
+            return RedirectToAction("Cart", "BuySuccessfully");
         }
 
-/*        public async Task<IActionResult> Checkout()
-        {
-            ViewBag.TrangThaiThanhToan = new SelectList(_dataContext.TrangThaiThanhToan, "MaTrangThaiThanhToan");
-            ViewBag.TrangThaiDonHang = new SelectList(_dataContext.TrangThaiDonHang, "MaTrangThaiDonHang");
-            CartItemViewModel donHang = new CartItemViewModel();
-            return View(donHang);
-        }*/
-/*        [HttpPost]
-        public async Task<IActionResult> Checkout(CartItemViewModel donHang)
-        {
-            if (donHang == null)
-            {
-                return View(donHang);
-            }
-
-            try
-            {
-                DonHang donHangList = new DonHang()
-                {
-                    TenKhachHang = donHang.DonHang.TenKhachHang,
-                    SoDienThoai = donHang.DonHang.SoDienThoai,
-                    DiaChi = donHang.DonHang.DiaChi,
-                    YeuCauKhac = donHang.DonHang.YeuCauKhac,
-                    MaTrangThaiDonHang = 5,
-                    MaTrangThaiThanhToan = 3,
-                    NgayLapDonHang = DateTime.Now,
-                };
-                await _dataContext.DonHang.AddAsync(donHangList);
-                await _dataContext.SaveChangesAsync();
-
-                // Nếu không có lỗi, chuyển hướng về trang chủ
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                // Ghi log hoặc xử lý ngoại lệ ở đây
-                return RedirectToAction("Error", "Home"); // Chuyển hướng đến trang lỗi
-            }
-        }*/
-
-
+      
         public async Task<IActionResult> Add(int maSanPham)
         {
             var sanPham = _dataContext.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefault();
@@ -111,6 +98,9 @@ namespace WebDT.Controllers
             }
             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+
+
 
 
         public IActionResult Decrease(int maSanPham)
@@ -173,6 +163,12 @@ namespace WebDT.Controllers
         {
             HttpContext.Session.Remove("Cart");
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult BuySuccessfully()
+        {
+            return View();
         }
        
 
