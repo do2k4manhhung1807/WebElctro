@@ -14,22 +14,19 @@
     <script src="./assets/script.js" defer></script>
 </head>
 <body>
-     @if (Model != null && Model.IMac != null)
+     @if (Model != null && Model.IMacList != null)
     {
            
 
-        <div class="product-area">
-            <p class="title-product">iMac</p>
-                <a href="@Url.Action("Index", "Home")" class="text-body">
-                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                </a>
+        <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
             <div class="new-product">
               
                   @{
                      int counter = 0;
-                    foreach (var item in Model.IMac)
+                    foreach (var item in Model.IMacList)
                     {
-                            <a asp-action="Details" asp-controller="Home" asp-route-MaSanPham="@item.MaSanPham" class="no-underline">
+                       <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@item.MaSanPham" style="text-decoration:none;">
+
                              <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                                  @if (item.HinhAnh != null && item.HinhAnh.Any())
                                 {
@@ -55,7 +52,8 @@
                                     <span>@item.Gia</span>
                                 </div>
                                 </div>
-                                </a>
+                       </a>
+
                                 counter++;
                      
                                 if (counter % 6 == 0)

@@ -24,7 +24,7 @@
     <div class="container">
         <div class="nav-bar">
             <nav class="nav-bar-1">
-                <div><img src="~/image-banner/banner/logor.png" /></div>
+                <a asp-controller="Home" asp-action="Index"><img src="~/image-banner/banner/logor.png" /></a>
                 <div class="pag news-pag">TIN TỨC</div>
                 <div class="pag branch-pag">THƯƠNG HIỆU</div>
                 <div class="searching-input-area">
@@ -34,8 +34,10 @@
                     </button>
                 </div>
                 <div class="btn-check">
-                    <i class="fa-solid fa-clipboard-list" style="font-size: 26px; color:#575757;"></i>
-                    <p>Kiểm tra đơn hàng</p>
+                    <a href="/KiemTraDonHang">
+                        <i class="fa-solid fa-clipboard-list" style="font-size: 26px; color:#575757;"></i>
+                        <p>Kiểm tra đơn hàng</p>
+                    </a>
                 </div>
                 <div class="btn-check">
                     <i class="fa-regular fa-calendar" style="font-size: 26px; color:#575757;"></i>

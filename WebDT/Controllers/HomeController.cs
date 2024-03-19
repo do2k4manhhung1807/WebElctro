@@ -159,7 +159,6 @@ namespace WebDT.Controllers
                 HinhAnhList = hinhAnhList
             };
 
-            // Truy?n ViewModel vào View
             return View(viewModel);
         }
 
@@ -186,7 +185,7 @@ namespace WebDT.Controllers
 
             var viewModel = new SanPhamChiTietViewModel
             {
-                IMac = imac,
+                IMacList = imac,
                 HinhAnhList = hinhAnhList
             };
 
