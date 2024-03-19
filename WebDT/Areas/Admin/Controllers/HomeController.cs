@@ -9,5 +9,15 @@ namespace WebDT.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult ProductsView()
+        {
+            return View();  
+        }
+        public IActionResult DeviceView()
+        {
+            return View();
+        }
+
     }
 }

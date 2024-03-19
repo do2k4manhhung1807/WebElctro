@@ -18,11 +18,7 @@
     {
            
 
-        <div class="product-area">
-            <p class="title-product">Bán chạy</p>
-            <a href="@Url.Action("Index", "Home")" class="text-body">
-                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                </a>
+        <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
             <div class="new-product">
               
                   @{
@@ -32,6 +28,7 @@
                        
                             if(item.MaSanPhamDacBiet == 3)
                             {
+                              <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@item.MaSanPham" style="text-decoration:none;">
                                  <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                                  @if (item.HinhAnh != null && item.HinhAnh.Any())
                                 {
@@ -54,9 +51,11 @@
 
                                 <div class="product-info">
                                     <p>@item.TenSanPham</p>
-                                    <span>@item.Gia</span>
+                                    <span style="color:black;">@item.Gia</span>
                                 </div>
                                 </div>
+
+                              </a>
                                 counter++;
                      
                                 if (counter % 6 == 0)

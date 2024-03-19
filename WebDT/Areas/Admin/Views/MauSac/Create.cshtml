@@ -5,29 +5,25 @@
     Layout = "_DashBoardAdmin";
 }
 
-<h1>Thêm </h1>
+<div style="background-color:#ffffff; transform:translate(30px,50px);  height:50%; width:80%; border-radius:9px; ">
+    <div style="transform:translateX(30px);">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
 
-<h4>Màu sắc </h4>
+                    <label asp-for="TenMau" class="control-label">Ram</label>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TenMau" class="control-label">Tên màu </label>
-                <input asp-for="TenMau" class="form-control" />
-                <span asp-validation-for="TenMau" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                    <input asp-for="TenMau" class="form-control" />
+                    <span asp-validation-for="TenMau" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Thêm" class="btn btn-outline-success" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Trở về</a>
 </div>
 
 
