@@ -1,12 +1,10 @@
-using Microsoft.EntityFrameworkCore;
+ using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
-using WebDT.Service;
-using System.Configuration;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -15,7 +13,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
+
+{
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+
+
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 3;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 
 builder.Services.AddDistributedMemoryCache();
@@ -25,40 +40,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-
-
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.Configure<IdentityOptions>(options => {
-    // Thiết lập về Password
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 3;
-    options.Password.RequiredUniqueChars = 1;
-
-    // Cấu hình Lockout - khóa user
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
-
-    // Cấu hình về User.
-    options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;  // Email là duy nhất
-
-    // Cấu hình đăng nhập.
-    options.SignIn.RequireConfirmedEmail = false;            
-    options.SignIn.RequireConfirmedPhoneNumber = false;     
-    options.SignIn.RequireConfirmedAccount = true;
-
-});
+builder.Services.AddScoped<UserManager<AppUserModel>>();
+builder.Services.AddScoped<SignInManager<AppUserModel>>();
 
 var app = builder.Build();
-
 
 app.UseSession();
 // Configure the HTTP request pipeline.
@@ -78,43 +63,52 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-/*app.UseEndpoints(endpoints => {
-
-    endpoints.MapGet("/testmail", async context => {
-
-        // Lấy dịch vụ sendmailservice
-        var sendmailservice = context.RequestServices.GetService<IEmailSender>();
-        string orderId = "#123"; // Placeholder for order id
-        string phoneNumber = "0123456789"; // Placeholder for phone number
-        string address = "123 Main St, City, Country"; // Placeholder for address
-        string totalMoney = "$100"; // Placeholder for total money
-        string khachHang = "Donald Trump";
-        MailContent content = new MailContent
-        {
-            To = "nnhoang0710@gmail.com",
-            Subject = "Đơn hàng mới",
-            Body = $@"
-                        <p><strong>Mã đơn hàng: {orderId}</strong></p>
-                        <p>Khách hàng: {khachHang}</p>
-                        <p>Số điện thoại: {phoneNumber}</p>
-                        <p>Địa chỉ: {address}</p>
-                        <p>Tổng tiền: {totalMoney}</p>
-                    "
-        };
-
-        await sendmailservice.SendMail(content);
-        await context.Response.WriteAsync("Send mail");
-    });
-
-});*/
-
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-app.Run();
+
+using (var scope = app.Services.CreateScope())
+{
+var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+var roles = new[] { "Manager", "Staff", "User" };
+
+foreach (var role in roles)
+{
+if (!await roleManger.RoleExistsAsync(role))
+await roleManger.CreateAsync(new IdentityRole(role));
+}
+}
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUserModel>>();
+    string email = "admin@gmail.com";
+    string emailtStaff = "staff@gmail.com";
+    string password = "Test@1234";
+    string address = "SG";
+    if (await userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new AppUserModel();
+        user.UserName = email;
+        user.Email = email;
+        user.Address = address;
+        await userManager.CreateAsync(user, password);
+        await userManager.AddToRoleAsync(user, "Manager");
+    }
+    if (await userManager.FindByEmailAsync(emailtStaff) == null)
+    {
+        var user = new AppUserModel();
+        user.UserName = emailtStaff;
+        user.Email = emailtStaff;
+        user.Address = address;
+        await userManager.CreateAsync(user, password);
+        await userManager.AddToRoleAsync(user, "Staff");
+    }
+
+    app.Run();
+}
