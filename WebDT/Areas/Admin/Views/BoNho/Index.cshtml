@@ -6,51 +6,33 @@
 }
 
 
+<h1>Danh sách bộ nhớ</h1>
 
 
-<div class="container-fluid py-4">
-    <div style="display: flex; flex-direction: row;justify-content:space-between;  height: 650px; width:100%; background-color:#ffffff; border-radius:9px;">
-
-        <div class="container mt-5">
-            <h1>Danh sách bộ nhớ</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Dung lượng</th>
-                        <th></th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.DungLuongBoNho</td>
-                            <td>
-                                <a class="btn btn-primary" asp-route-id="@item.MaBoNho"  asp-action="Edit">
-                                    Chỉnh sửa
-                                </a>
-                                <a class="btn btn-danger" asp-route-id="@item.MaBoNho"  asp-action="Delete">
-                                    Xoá
-                                </a>
-                            </td>
-
-                        </tr>
-
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div style="transform:translate(-65px,90px);">
-            <a asp-action="Create">
-                <i class="fa-solid fa-plus" style="color: forestgreen; font-size:30px;"></i>
-            </a>
-        </div>
-    </div>
-
-
-</div>
-
-
-
-
+<p>
+    <a asp-action="Create">Thêm mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Dung lượng bộ nhớ 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DungLuongBoNho)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaBoNho">Chỉnh sửa </a> |
+                <a asp-action="Details" asp-route-id="@item.MaBoNho">Chi tiết </a> |
+                <a asp-action="Delete" asp-route-id="@item.MaBoNho">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -90,6 +90,8 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     _context.Update(mauSac);
@@ -107,7 +109,7 @@ namespace WebDT.Areas.Admin.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-
+            }
             return View(mauSac);
         }
 
