@@ -15,65 +15,70 @@
 </head>
 <body>
      @if (Model != null && Model.IphoneList != null)
+
     {
            
 
-        <div class="product-area">
-            <p class="title-product">Iphone</p>
-                <a href="@Url.Action("Index", "Home")" class="text-body">
-                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                </a>
-            <div class="new-product">
+
+
+        <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
+          <div class="new-product">
               
                   @{
+
                      int counter = 0;
                     foreach (var item in Model.IphoneList)
                     {
-                       
                              <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                                  @if (item.HinhAnh != null && item.HinhAnh.Any())
-                                {
+                                 {
                                     @foreach (var image in item.HinhAnh)
                                     {
                                         <img src="~/Images/@image.FileHinhAnh"/>
                                         break;
                                     }
                                  }
-                                else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
-                                {
-                                    // Display a default image from HinhAnhList
+                                 else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                                 {
+                                     // Display a default image from HinhAnhList
                                     <img src="~/Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
-                                }
-                                else
-                                {
-                                    // Display a default image
+                                 }
+                                 else
+                                 {
+                                     // Display a default image
                                     <img src="@Url.Content("/Images/no-images.jpg")">
-                                }
+                                 }
 
                                 <div class="product-info">
                                     <p>@item.TenSanPham</p>
-                                    <span>@item.Gia</span>
+                                    <span style="color:black;">@item.Gia</span>
                                 </div>
                                 </div>
-                                counter++;
-                     
-                                if (counter % 6 == 0)
-                                {
+
+                          </a>
+                          counter++;
+
+                          if (counter % 6 == 0)
+                          {
                                     @:</div><div class="new-product">
-                                }
-                                 
-                            
-                        }
-                        
-                    }
-                
+                          }
+
+
+                      }
+
+
+
+                  }
+
                     </div>
-
-               
-
             </div>
-                
-        
-    }
+      
+
+
+}
+else
+            {
+                <p>Null</p>
+            }
 </body>
 </html>

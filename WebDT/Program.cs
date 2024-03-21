@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
 using Microsoft.Extensions.Options;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -15,15 +12,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
 );
 
+
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
+
 {
     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
 
+
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
-
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
@@ -41,16 +40,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-
 builder.Services.AddScoped<UserManager<AppUserModel>>();
 builder.Services.AddScoped<SignInManager<AppUserModel>>();
-/*builder.Services.AddDefaultIdentity<User>()
-      .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();*/
-
-/*builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
 var app = builder.Build();
 
@@ -72,7 +63,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
@@ -82,18 +72,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-
-/*using (var scope = app.Services.CreateScope())
-{
-    var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Manager", "Staff", "User" };
-
-    foreach (var role in roles)
-    {
-             if (!await roleManger.RoleExistsAsync(role))
-             await roleManger.CreateAsync(new IdentityRole(role));
-    }
-}*/
 
 using (var scope = app.Services.CreateScope())
 {

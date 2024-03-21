@@ -24,7 +24,7 @@
     <div class="container">
         <div class="nav-bar">
             <nav class="nav-bar-1">
-                <div><img src="~/image-banner/banner/logor.png" /></div>
+                <a asp-controller="Home" asp-action="Index"><img src="~/image-banner/banner/logor.png" /></a>
                 <div class="pag news-pag">TIN TỨC</div>
                 <div class="pag branch-pag">THƯƠNG HIỆU</div>
                 <div class="searching-input-area">
@@ -40,8 +40,10 @@
 
                 </div>
                 <div class="btn-check">
-                    <i class="fa-solid fa-clipboard-list" style="font-size: 26px; color:#575757;"></i>
-                    <p>Kiểm tra đơn hàng</p>
+                    <a asp-controller="KiemTraDonHang" asp-action="Index" style="text-decoration:none; display:flex; flex-direction:row;">
+                        <i class="fa-solid fa-clipboard-list" style="font-size: 26px; color:#575757;"></i>
+                        <p>Kiểm tra đơn hàng</p>
+                    </a>
                 </div>
                 <div class="btn-check">
                     <i class="fa-regular fa-calendar" style="font-size: 26px; color:#575757;"></i>
@@ -57,7 +59,11 @@
 
                 </div>
                 <div class="messenger-icon">
-                    <i class="fab fa-facebook-messenger" style="color: #007bff; font-size: 40px;"></i>
+                    <a asp-controller="Home" asp-action="CSKH">
+                        <img style="height:70px; width: 70px;" src="~/assets/images/logo-zalo-02-removebg-preview.png"/>
+                    </a>
+@*                    <i class="fab fa-facebook-messenger" style="color: #007bff; font-size: 40px;"></i>
+*@                
                 </div>
             </nav>
             <nav class="nav-bar-2">

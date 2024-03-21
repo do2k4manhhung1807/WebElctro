@@ -91,14 +91,14 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+          
                 try
+
                 {
                     _context.Update(ram);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
                 {
                     if (!RamExists(ram.MaRam))
                     {
@@ -110,7 +110,7 @@ namespace WebDT.Areas.Admin.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
+
             return View(ram);
         }
 

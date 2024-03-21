@@ -1,68 +1,139 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using WebDT.Models;
-using WebDT.Models.ViewModels;
 using WebDT.Repository;
+using WebDT.ViewModel;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using WebDT.Service;
+using MailKit.Search;
 
-namespace ThietBiDienTu_2.Controllers
+namespace WebDT.Controllers
 {
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _dataContext;
-        public CartController(ApplicationDbContext _context)
+        private readonly IEmailSender _emailSender;
+
+        public CartController(ApplicationDbContext _context, IEmailSender emailSender)
         {
             _dataContext = _context;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); // neu co du lieu thi hien thi con khong se tao moi 1 list 
-            CartItemViewModel cartVM = new()
+            DonHang donHang = new DonHang();
+
+            CartItemViewModel cartVM = new CartItemViewModel
             {
                 CartItems = cartItems,
-                GrandTotal = cartItems.Sum(x => x.Soluong)//Tinh tong
-
+                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia),
+                TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
+                DonHang = donHang
             };
             return View(cartVM);
         }
-        public ActionResult Checkout()
+
+        [HttpPost]
+        public async Task<IActionResult> Index(CartItemViewModel cartVM)
         {
-            return View("~/View/Checkout/Index.cshtml");
+            if (cartVM == null || cartVM.DonHang == null)
+            {
+                return NotFound();
+            }
+            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); // neu co du lieu thi hien thi con khong se tao moi 1 list 
+            if (cartItems == null)
+            {
+                return NotFound();
+            }
+            cartVM.DonHang.MaTrangThaiDonHang = 1;
+            cartVM.DonHang.MaTrangThaiThanhToan = 1;
+            cartVM.DonHang.NgayLapDonHang = DateTime.Now;
+            DonHang donHang = cartVM.DonHang;
+            
+            await _dataContext.DonHang.AddAsync(donHang);
+            await _dataContext.SaveChangesAsync();
+            
+            foreach(var sanPham in cartItems)
+            {
+                ChiTietDonHangSanPham ctDonHang = new ChiTietDonHangSanPham()
+                {
+                    MaDonHang = donHang.MaDonHang,
+                    MaSanPham = sanPham.MaSanPham,
+                    SoluongMua = sanPham.Soluong
+                };
+                await _dataContext.ChiTietDonHangSanPham.AddAsync(ctDonHang);
+                await _dataContext.SaveChangesAsync();
+            }
+
+            /*Send gmail when having a new bill*/
+            MailContent content = new MailContent
+            {
+                To = "nnhoang0710@gmail.com",
+                Subject = "Đơn hàng mới",
+                Body = $@"
+                        <p><strong>Mã đơn hàng: {donHang.MaDonHang}</strong></p>
+                        <p>Khách hàng: {donHang.TenKhachHang}</p>
+                        <p>Ngày lập đơn hàng {donHang.NgayLapDonHang}<p/>
+                        <p>Số điện thoại: {donHang.SoDienThoai}</p>
+                        <p>Địa chỉ: {donHang.DiaChi}</p>
+                        <p>Tổng tiền: {cartVM.GrandTotal}</p>
+                    "
+            };
+            await _emailSender.SendMail(content);
+
+
+
+            return RedirectToAction("BuySuccessfully", "Cart");
         }
 
-        public IActionResult Add(int id)
+      
+        public async Task<IActionResult> Add(int maSanPham)
         {
-            SanPham sanPham = _dataContext.SANPHAM.FirstOrDefault(x => x.MaSanPham == id);
+            var sanPham = _dataContext.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefault();
 
-            List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
-
-            CartItemModel cartItem = cart.FirstOrDefault(c => c.MaSanPham == id);
-
-            if (cartItem == null)
+            if (sanPham != null)
             {
-                HinhAnh image = sanPham.HinhAnh?.FirstOrDefault();
-                cart.Add(new CartItemModel(sanPham, image));
-            }
-            else
-            {
-                cartItem.Soluong += 1;
-            }
+                var hinhAnhList = await _dataContext.HINHANH
+                    .Where(x => x.MaSanPham == sanPham.MaSanPham)
+                    .ToListAsync();
+                var hinhAnh = hinhAnhList[0].FileHinhAnh;
+                var viewModel = new CartItemViewModel();
+                List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
-            HttpContext.Session.SetJson("Cart", cart);
+                CartItemModel cartItem = cart.FirstOrDefault(c => c.MaSanPham == maSanPham);
 
+                if (cartItem == null)
+                {
+                    cart.Add(new CartItemModel(sanPham, hinhAnh));
+                }
+                else
+                {
+                    cartItem.Soluong += 1;
+                }
+
+                HttpContext.Session.SetJson("Cart", cart);
+            }
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        public IActionResult Decrease(int id)
+
+
+
+
+        public IActionResult Decrease(int maSanPham)
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
-            CartItemModel cartItem = cart.Where(c => c.MaSanPham == id).FirstOrDefault();
+            CartItemModel cartItem = cart.Where(c => c.MaSanPham == maSanPham).FirstOrDefault();
             if(cartItem.Soluong >1){
                 --cartItem.Soluong;
             }
             else
             {
-                cart.RemoveAll(p => p.MaSanPham == id);
+                cart.RemoveAll(p => p.MaSanPham == maSanPham);
             }
             if(cart.Count == 0) {
                 HttpContext.Session.Remove("Cart");
@@ -73,17 +144,17 @@ namespace ThietBiDienTu_2.Controllers
             }
             return RedirectToAction("Index");
         }
-        public IActionResult Increase(int id)
+        public IActionResult Increase(int maSanPham)
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
-            CartItemModel cartItem = cart.Where(c => c.MaSanPham == id).FirstOrDefault();
+            CartItemModel cartItem = cart.Where(c => c.MaSanPham == maSanPham).FirstOrDefault();
             if (cartItem.Soluong >= 1)
             {
                 ++cartItem.Soluong;
             }
             else
             {
-                cart.RemoveAll(p => p.MaSanPham == id);
+                cart.RemoveAll(p => p.MaSanPham == maSanPham);
             }
             if (cart.Count == 0)
             {
@@ -95,10 +166,10 @@ namespace ThietBiDienTu_2.Controllers
             }
             return RedirectToAction("Index");
         }
-        public IActionResult Delete(int MaSanPham)
+        public IActionResult Delete(int maSanPham)
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
-            cart.RemoveAll(x => x.MaSanPham == MaSanPham);
+            cart.RemoveAll(x => x.MaSanPham == maSanPham);
             if (cart.Count == 0)
             {
                 HttpContext.Session.Remove("Cart");
@@ -109,10 +180,18 @@ namespace ThietBiDienTu_2.Controllers
             }
             return RedirectToAction("Index");
         }
-        public IActionResult Clear(string Matb)
+        public IActionResult Clear()
         {
             HttpContext.Session.Remove("Cart");
             return RedirectToAction("Index");
         }
+
+
+        public IActionResult BuySuccessfully()
+        {
+            return View();
+        }
+       
+
     }
 }

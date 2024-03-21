@@ -159,7 +159,6 @@ namespace WebDT.Controllers
                 HinhAnhList = hinhAnhList
             };
 
-            // Truy?n ViewModel vào View
             return View(viewModel);
         }
 
@@ -217,6 +216,11 @@ namespace WebDT.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult CSKH()
+        {
+            return View();
         }
     }
 }

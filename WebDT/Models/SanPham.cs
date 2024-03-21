@@ -14,8 +14,8 @@ namespace WebDT.Models
         public string ManHinh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin mô tả")]
         public string Mota { get; set; }
-
-        public int MaThuongHieu { get; set; }
+/*        public int? BaoHanh { get; set; }
+*/        public int MaThuongHieu { get; set; }
         [ForeignKey("LoaiSanPham")]
         public int MaLoaiSanPham { get; set; }
 
@@ -43,7 +43,7 @@ namespace WebDT.Models
         public int MaRam { get; set; }
         public Ram Ram { get; set; }
 
-
+        
         public ThuongHieu ThuongHieu { get; set; }
         public LoaiSanPham LoaiSanPham { get; set; }
         public ICollection<HinhAnh> HinhAnh { get; set; }
