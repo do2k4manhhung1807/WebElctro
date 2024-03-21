@@ -2,7 +2,9 @@
 using WebDT.Data;
 using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
+
 using Microsoft.Extensions.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,16 +15,36 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+
+
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
+
 
 {
     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
 
 
+
+/*builder.Services.AddDefaultIdentity<User>()
+      .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();*/
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+/*builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+*/
+builder.Services.Configure<IdentityOptions>(options => {
+    // Thiết lập về Password
+
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
+
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
@@ -31,6 +53,13 @@ builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+
+    // Cấu hình đăng nhập.
+    options.SignIn.RequireConfirmedEmail = false;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
+    options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
+    options.SignIn.RequireConfirmedAccount = true;
+
 
 
 builder.Services.AddDistributedMemoryCache();
@@ -63,6 +92,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
+
+>>>>>>> master
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
