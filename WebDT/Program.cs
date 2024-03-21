@@ -1,12 +1,13 @@
- using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
-
 using Microsoft.Extensions.Options;
 
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -14,32 +15,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
 );
 
-
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-
-
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
-
-
 {
     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
-
-
-
-/*builder.Services.AddDefaultIdentity<User>()
-      .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();*/
-
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-/*builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-*/
-builder.Services.Configure<IdentityOptions>(options => {
-    // Thiết lập về Password
 
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedEmail = false;
@@ -55,13 +34,6 @@ builder.Services.Configure<IdentityOptions>(options => {
 .AddDefaultTokenProviders();
 
 
-    // Cấu hình đăng nhập.
-    options.SignIn.RequireConfirmedEmail = false;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
-    options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
-    options.SignIn.RequireConfirmedAccount = true;
-
-
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -69,8 +41,16 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
 builder.Services.AddScoped<UserManager<AppUserModel>>();
 builder.Services.AddScoped<SignInManager<AppUserModel>>();
+/*builder.Services.AddDefaultIdentity<User>()
+      .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();*/
+
+/*builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
 var app = builder.Build();
 
@@ -93,7 +73,6 @@ app.UseAuthorization();
 
 
 
->>>>>>> master
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
@@ -104,16 +83,28 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+/*using (var scope = app.Services.CreateScope())
+{
+    var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Manager", "Staff", "User" };
+
+    foreach (var role in roles)
+    {
+             if (!await roleManger.RoleExistsAsync(role))
+             await roleManger.CreateAsync(new IdentityRole(role));
+    }
+}*/
+
 using (var scope = app.Services.CreateScope())
 {
-var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-var roles = new[] { "Manager", "Staff", "User" };
+    var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Manager", "Staff", "User" };
 
-foreach (var role in roles)
-{
-if (!await roleManger.RoleExistsAsync(role))
-await roleManger.CreateAsync(new IdentityRole(role));
-}
+    foreach (var role in roles)
+    {
+        if (!await roleManger.RoleExistsAsync(role))
+            await roleManger.CreateAsync(new IdentityRole(role));
+    }
 }
 using (var scope = app.Services.CreateScope())
 {

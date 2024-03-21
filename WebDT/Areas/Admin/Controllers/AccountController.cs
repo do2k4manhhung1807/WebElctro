@@ -34,8 +34,8 @@ namespace WebDT.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
-                   //return RedirectToAction("Admmin", "Home", new {area = "Admin"});
+                    //return RedirectToAction("Home", "Admin");
+                    return RedirectToAction("Admmin", "Home", new { area = "Admin" });
                 }
                 ModelState.AddModelError("", "Invalid Login Attempt");
             }
