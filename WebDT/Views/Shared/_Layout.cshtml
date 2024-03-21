@@ -28,10 +28,16 @@
                 <div class="pag news-pag">TIN TỨC</div>
                 <div class="pag branch-pag">THƯƠNG HIỆU</div>
                 <div class="searching-input-area">
-                    <input class="searching-input" type="text" placeholder="Nhập từ khoá tìm kiếm" />
-                    <button class="searching-btn">
-                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                    </button>
+                    <form id="searchForm" action="@Url.Action("Index","Home")" method="get" style="width:85%" class="d-none d-md-flex">
+
+                        <input class="searching-input" type="text" placeholder="Nhập từ khoá tìm kiếm" />
+
+                        <button class="searching-btn">
+                            <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+
+                        </button>
+                    </form>
+
                 </div>
                 <div class="btn-check">
                     <a href="/KiemTraDonHang">
@@ -50,7 +56,7 @@
                     <a href="/Cart">
                         <i class="fa-solid fa-cart-shopping" style="color: #333333; font-size:20px; cursor:pointer;"></i>
                     </a>
-                   
+
                 </div>
                 <div class="messenger-icon">
                     <i class="fab fa-facebook-messenger" style="color: #007bff; font-size: 40px;"></i>
@@ -67,16 +73,16 @@
                 <div>Hỗ trợ</div>
             </nav>
         </div>
-    <div class="main">
-       
+        <div class="main">
+
             @RenderBody()
 
-    </div>
+        </div>
 
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

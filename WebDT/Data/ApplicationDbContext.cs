@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using WebDT.Models;
+using WebDT.ViewModel;
 
 namespace WebDT.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<AppUserModel>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<BoNho> BONHO { get; set; }
@@ -56,9 +57,6 @@ namespace WebDT.Data
                 .WithMany(s => s.SanPham)
                 .HasForeignKey(s => s.MaBoNho);
 
-
-
-
             modelBuilder.Entity<SanPham>()
                 .HasOne<Ram>(m => m.Ram)
                 .WithMany(s => s.SanPham)
@@ -68,7 +66,6 @@ namespace WebDT.Data
                .HasOne<SanPhamDacBiet>(l => l.SanPhamDacBiet)
                .WithMany(s => s.SanPham)
                .HasForeignKey(s => s.MaSanPhamDacBiet);
-
 
             modelBuilder.Entity<ChiTietDonHangSanPham>()
                 .HasKey(sc => new { sc.MaSanPham, sc.MaDonHang });
@@ -83,8 +80,6 @@ namespace WebDT.Data
                 .WithMany(s => s.ChiTietDonHangSanPham)
                 .HasForeignKey(sc => sc.MaDonHang);
 
-
-
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")
            .HasDiscriminator<int>("SanPham")
@@ -94,16 +89,17 @@ namespace WebDT.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
 
-/*            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+
+                    foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 var tableName = entityType.GetTableName();
                 if (tableName.StartsWith("AspNet"))
                 {
                     entityType.SetTableName(tableName.Substring(6));
                 }
-            }*/
-
         }
 
+
+}
     }
 }

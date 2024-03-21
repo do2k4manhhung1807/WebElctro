@@ -15,17 +15,20 @@
 </head>
 <body>
      @if (Model != null && Model.IphoneList != null)
-     {
+
+    {
+           
+
 
 
         <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
           <div class="new-product">
               
                   @{
-                      int counter = 0;
-                      foreach (var item in Model.IphoneList)
-                      {
-                          <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@item.MaSanPham" style="text-decoration:none;">
+
+                     int counter = 0;
+                    foreach (var item in Model.IphoneList)
+                    {
                              <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
                                  @if (item.HinhAnh != null && item.HinhAnh.Any())
                                  {

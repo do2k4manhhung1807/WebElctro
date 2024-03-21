@@ -1,3 +1,4 @@
+
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -6,9 +7,14 @@ using WebDT.Data;
 using WebDT.Models;
 using WebDT.ViewModel;
 
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class DonHangController : Controller
     {        
         private readonly ApplicationDbContext _dataContext;

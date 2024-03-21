@@ -1,10 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+ using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.Extensions.Options;
 
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -12,12 +14,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
 );
 
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
+
+
+builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
+
+
 {
-    options.IOTimeout = TimeSpan.FromMinutes(15); //thoi gian ton tai
-    options.Cookie.IsEssential = true;
-});
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+
 
 
 /*builder.Services.AddDefaultIdentity<User>()
@@ -32,32 +40,39 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 */
 builder.Services.Configure<IdentityOptions>(options => {
     // Thiết lập về Password
+
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 3;
-    options.Password.RequiredUniqueChars = 1;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
-    // Cấu hình Lockout - khóa user
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
-
-    // Cấu hình về User.
-    options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;  // Email là duy nhất
 
     // Cấu hình đăng nhập.
     options.SignIn.RequireConfirmedEmail = false;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
     options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
     options.SignIn.RequireConfirmedAccount = true;
 
+
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IOTimeout = TimeSpan.FromMinutes(15); //thoi gian ton tai
+    options.Cookie.IsEssential = true;
 });
 
-var app = builder.Build();
+builder.Services.AddScoped<UserManager<AppUserModel>>();
+builder.Services.AddScoped<SignInManager<AppUserModel>>();
 
+var app = builder.Build();
 
 app.UseSession();
 // Configure the HTTP request pipeline.
@@ -78,13 +93,53 @@ app.UseAuthorization();
 
 
 
+>>>>>>> master
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-app.Run();
+
+using (var scope = app.Services.CreateScope())
+{
+var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+var roles = new[] { "Manager", "Staff", "User" };
+
+foreach (var role in roles)
+{
+if (!await roleManger.RoleExistsAsync(role))
+await roleManger.CreateAsync(new IdentityRole(role));
+}
+}
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUserModel>>();
+    string email = "admin@gmail.com";
+    string emailtStaff = "staff@gmail.com";
+    string password = "Test@1234";
+    string address = "SG";
+    if (await userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new AppUserModel();
+        user.UserName = email;
+        user.Email = email;
+        user.Address = address;
+        await userManager.CreateAsync(user, password);
+        await userManager.AddToRoleAsync(user, "Manager");
+    }
+    if (await userManager.FindByEmailAsync(emailtStaff) == null)
+    {
+        var user = new AppUserModel();
+        user.UserName = emailtStaff;
+        user.Email = emailtStaff;
+        user.Address = address;
+        await userManager.CreateAsync(user, password);
+        await userManager.AddToRoleAsync(user, "Staff");
+    }
+
+    app.Run();
+}
