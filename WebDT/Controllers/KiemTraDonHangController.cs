@@ -14,9 +14,16 @@ namespace WebDT.Controllers
         {
             _dataContext = dataContext;
         }
-        public IActionResult Index()
+
+        [HttpPost]
+        public IActionResult Index(string phoneNumber)
         {
+            if (phoneNumber == null)
+            {
+                return NotFound();
+            }
             return View();
         }
+
     }
 }
