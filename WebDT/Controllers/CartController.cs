@@ -6,15 +6,20 @@ using WebDT.Models;
 using WebDT.Repository;
 using WebDT.ViewModel;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using WebDT.Service;
+using MailKit.Search;
 
 namespace WebDT.Controllers
 {
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _dataContext;
-        public CartController(ApplicationDbContext _context)
+        private readonly IEmailSender _emailSender;
+
+        public CartController(ApplicationDbContext _context, IEmailSender emailSender)
         {
             _dataContext = _context;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -64,9 +69,25 @@ namespace WebDT.Controllers
                 await _dataContext.SaveChangesAsync();
             }
 
+            /*Send gmail when having a new bill*/
+            MailContent content = new MailContent
+            {
+                To = "nnhoang0710@gmail.com",
+                Subject = "Đơn hàng mới",
+                Body = $@"
+                        <p><strong>Mã đơn hàng: {donHang.MaDonHang}</strong></p>
+                        <p>Khách hàng: {donHang.TenKhachHang}</p>
+                        <p>Ngày lập đơn hàng {donHang.NgayLapDonHang}<p/>
+                        <p>Số điện thoại: {donHang.SoDienThoai}</p>
+                        <p>Địa chỉ: {donHang.DiaChi}</p>
+                        <p>Tổng tiền: {cartVM.GrandTotal}</p>
+                    "
+            };
+            await _emailSender.SendMail(content);
 
 
-            return RedirectToAction("Cart", "BuySuccessfully");
+
+            return RedirectToAction("BuySuccessfully", "Cart");
         }
 
       
