@@ -2,8 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using Microsoft.AspNetCore.Identity;
 using WebDT.Models;
-using WebDT.Service;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +12,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
 );
 
-
-builder.Services.AddTransient<IEmailSender, EmailSender>();
-
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -25,12 +19,17 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
+/*builder.Services.AddDefaultIdentity<User>()
+      .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();*/
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+/*builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+*/
 builder.Services.Configure<IdentityOptions>(options => {
     // Thiết lập về Password
     options.Password.RequireDigit = false;
@@ -51,8 +50,8 @@ builder.Services.Configure<IdentityOptions>(options => {
     options.User.RequireUniqueEmail = true;  // Email là duy nhất
 
     // Cấu hình đăng nhập.
-    options.SignIn.RequireConfirmedEmail = false;            
-    options.SignIn.RequireConfirmedPhoneNumber = false;     
+    options.SignIn.RequireConfirmedEmail = false;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
+    options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
     options.SignIn.RequireConfirmedAccount = true;
 
 });
@@ -78,35 +77,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-/*app.UseEndpoints(endpoints => {
-
-    endpoints.MapGet("/testmail", async context => {
-
-        // Lấy dịch vụ sendmailservice
-        var sendmailservice = context.RequestServices.GetService<IEmailSender>();
-        string orderId = "#123"; // Placeholder for order id
-        string phoneNumber = "0123456789"; // Placeholder for phone number
-        string address = "123 Main St, City, Country"; // Placeholder for address
-        string totalMoney = "$100"; // Placeholder for total money
-        string khachHang = "Donald Trump";
-        MailContent content = new MailContent
-        {
-            To = "nnhoang0710@gmail.com",
-            Subject = "Đơn hàng mới",
-            Body = $@"
-                        <p><strong>Mã đơn hàng: {orderId}</strong></p>
-                        <p>Khách hàng: {khachHang}</p>
-                        <p>Số điện thoại: {phoneNumber}</p>
-                        <p>Địa chỉ: {address}</p>
-                        <p>Tổng tiền: {totalMoney}</p>
-                    "
-        };
-
-        await sendmailservice.SendMail(content);
-        await context.Response.WriteAsync("Send mail");
-    });
-
-});*/
 
 app.MapControllerRoute(
     name: "areas",
