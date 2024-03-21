@@ -10,6 +10,7 @@ using WebDT.ViewModel;
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class IphoneController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,12 +22,13 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
-
-
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String SearchString)
         {
-            var iphone = await _context.IPHONE.ToListAsync();
+            var iphone = _context.IPHONE.AsQueryable();
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                iphone = iphone.Where(x => x.TenSanPham.Contains(SearchString));
+            }
             return View(iphone);
 
         }

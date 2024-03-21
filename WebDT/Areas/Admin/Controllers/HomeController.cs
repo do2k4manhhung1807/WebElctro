@@ -5,7 +5,7 @@ namespace WebDT.Areas.Admin.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Admmin()
         {
             return View();
         }

@@ -155,7 +155,7 @@ namespace WebDT.Controllers
 
             var viewModel = new SanPhamChiTietViewModel
             {
-                Iphone = iphone,
+                IphoneList = iphone,
                 HinhAnhList = hinhAnhList
             };
 
@@ -171,7 +171,7 @@ namespace WebDT.Controllers
 
             var viewModel = new SanPhamChiTietViewModel
             {
-                Ipad = ipad,
+                IpadList = ipad,
                 HinhAnhList = hinhAnhList
             };
 
@@ -186,7 +186,7 @@ namespace WebDT.Controllers
 
             var viewModel = new SanPhamChiTietViewModel
             {
-                IMac = imac,
+                IMacList = imac,
                 HinhAnhList = hinhAnhList
             };
 
@@ -201,7 +201,7 @@ namespace WebDT.Controllers
 
             var viewModel = new SanPhamChiTietViewModel
             {
-                Laptop = laptop,
+                LaptopList = laptop,
                 HinhAnhList = hinhAnhList
             };
 

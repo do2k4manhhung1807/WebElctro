@@ -14,7 +14,7 @@
     <script src="./assets/script.js" defer></script>
 </head>
 <body>
-     @if (Model != null && Model.Iphone != null)
+     @if (Model != null && Model.IphoneList != null)
     {
            
 
@@ -27,7 +27,7 @@
               
                   @{
                      int counter = 0;
-                    foreach (var item in Model.Iphone)
+                    foreach (var item in Model.IphoneList)
                     {
                        
                              <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
