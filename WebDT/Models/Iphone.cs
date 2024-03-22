@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+
 namespace WebDT.Models
 {
     public class Iphone : SanPham
@@ -19,5 +20,10 @@ namespace WebDT.Models
 
         [Required(ErrorMessage = "Vui lòng nhập thông tin Pin")]
         public string Pin { get; set; }
+
+        public static implicit operator Iphone(List<Iphone> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WebDT.ViewModel.DonHangViewModel
+@{
     Layout = "_DashBoardAdmin";
 }
 
@@ -62,19 +63,35 @@
                 </div>
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
+                        @foreach(var donhang in Model.DonHangList){
+                   
+                            // Get name
+                        var tenTrangThaiThanhToan = Model._context.TrangThaiThanhToan.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
+                        var tenTrangThaiDonHang = Model._context.TrangThaiDonHang.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
                         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                             <div class="d-flex flex-column">
-                                <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2"></span></span>
-                                <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold"></span></span>
-                                <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold"></span></span>
-                                <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold"></span></span>
+                                <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>
+                                <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2">@donhang.NgayLapDonHang</span></span>
+                                <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
+                                <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
+                                <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
+                                <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
+                                <span class="mb-2 text-xs">Trạng thái thanh toán: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
+                                <span class="mb-2 text-xs">Tổng giá trị đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
+
                             </div>
-                            <div class="ms-auto text-end">
-                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i aria-hidden="true"></i>Chỉnh sửa</a>
-                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i aria-hidden="true"></i>Chi tiết</a>
-                            </div>
+
+                                <div class="ms-auto text-end">
+                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Edit" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                        <i aria-hidden="true"></i>Chỉnh sửa
+                                    </a>
+                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Details" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                        <i aria-hidden="true"></i>Chi tiết
+                                    </a>
+                                </div>
+
                         </li>
+                        }
                     </ul>
                 </div>
             </div>

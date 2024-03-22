@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebDT.Data;
 
@@ -11,9 +12,11 @@ using WebDT.Data;
 namespace WebDT.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319150720_ChangeColumnName")]
+    partial class ChangeColumnName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,17 +446,17 @@ namespace WebDT.Migrations
 
             modelBuilder.Entity("WebDT.Models.TrangThaiThanhToan", b =>
                 {
-                    b.Property<int>("MaTrangThaiThanhToan")
+                    b.Property<int>("MaTrangThaiDonHang")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiThanhToan"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiDonHang"));
 
-                    b.Property<string>("TenTrangThaiThanhToan")
+                    b.Property<string>("TenTrangThaiDonHang")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaTrangThaiThanhToan");
+                    b.HasKey("MaTrangThaiDonHang");
 
                     b.ToTable("TrangThaiThanhToan");
                 });
