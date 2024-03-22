@@ -70,7 +70,7 @@ namespace WebDT.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaTrangThaiDonHang, TenTrangThaiDonHang")] TrangThaiThanhToan trangThai)
         {
-            if (id != trangThai.MaTrangThaiDonHang)
+            if (id != trangThai.MaTrangThaiThanhToan)
             {
                 return NotFound();
             }
@@ -83,7 +83,7 @@ namespace WebDT.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TrangThaiThanhToanExists(trangThai.MaTrangThaiDonHang))
+                    if (!TrangThaiThanhToanExists(trangThai.MaTrangThaiThanhToan))
                     {
                         return NotFound();
                     }
@@ -106,7 +106,7 @@ namespace WebDT.Areas.Admin.Controllers
             }
 
             var trangThai = await _context.TrangThaiThanhToan
-                .FirstOrDefaultAsync(m => m.MaTrangThaiDonHang == id);
+                .FirstOrDefaultAsync(m => m.MaTrangThaiThanhToan == id);
             if (trangThai == null)
             {
                 return NotFound();
@@ -132,7 +132,7 @@ namespace WebDT.Areas.Admin.Controllers
 
         private bool TrangThaiThanhToanExists(int id)
         {
-            return _context.TrangThaiThanhToan.Any(e => e.MaTrangThaiDonHang == id);
+            return _context.TrangThaiThanhToan.Any(e => e.MaTrangThaiThanhToan == id);
         }
     }
 }

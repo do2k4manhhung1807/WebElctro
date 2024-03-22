@@ -12,11 +12,11 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="MaTrangThaiDonHang" />
+            <input type="hidden" asp-for="MaTrangThaiThanhToan" />
             <div class="form-group">
-                <label asp-for="TenTrangThaiDonHang" class="control-label">Tên trạng thái</label>
-                <input asp-for="TenTrangThaiDonHang" class="form-control" />
-                <span asp-validation-for="TenTrangThaiDonHang" class="text-danger"></span>
+                <label asp-for="TenTrangThaiThanhToan" class="control-label">Tên trạng thái</label>
+                <input asp-for="TenTrangThaiThanhToan" class="form-control" />
+                <span asp-validation-for="TenTrangThaiThanhToan" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

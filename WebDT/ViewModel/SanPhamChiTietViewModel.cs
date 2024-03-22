@@ -20,9 +20,7 @@ namespace WebDT.ViewModel
         public List<Iphone> IphoneList { get; set; }  
         public List<Ipad> IpadList { get; set; }
         public List<IMac> IMacList { get; set; }
-
         public List<Laptop> LaptopList { get; set; }
-
         public List<SanPham> SanPhamList { get; set; }
         public List<HinhAnh> HinhAnhList { get; set; }
         public List<HinhAnhQuangCao> HinhAnhQuangCao { get; set; }  

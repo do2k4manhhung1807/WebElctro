@@ -21,9 +21,13 @@ namespace WebDT.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String SearchString)
         {
-            var imac = await _context.IMAC.ToListAsync();
+            var imac = _context.IMAC.AsQueryable();
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                imac = imac.Where(x => x.TenSanPham.Contains(SearchString));
+            }
             return View(imac);
 
         }

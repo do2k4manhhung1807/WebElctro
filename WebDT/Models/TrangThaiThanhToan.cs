@@ -5,8 +5,8 @@ namespace WebDT.Models
     public class TrangThaiThanhToan
     {
         [Key]
-        public int MaTrangThaiDonHang { get; set; }
-        public string TenTrangThaiDonHang { get; set; }
+        public int MaTrangThaiThanhToan { get; set; }
+        public string TenTrangThaiThanhToan { get; set; }
         public virtual ICollection<DonHang> DonHang { get; set; }
     }
 }

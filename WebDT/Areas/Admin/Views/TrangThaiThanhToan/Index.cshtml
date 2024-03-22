@@ -22,11 +22,11 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TenTrangThaiDonHang)
+                @Html.DisplayFor(modelItem => item.TenTrangThaiThanhToan)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MaTrangThaiDonHang">Chỉnh sửa</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaTrangThaiDonHang">Xóa</a>
+                <a asp-action="Edit" asp-route-id="@item.MaTrangThaiThanhToan">Chỉnh sửa</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaTrangThaiThanhToan">Xóa</a>
 
             </td>
         </tr>

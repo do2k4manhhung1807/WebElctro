@@ -14,8 +14,6 @@ namespace WebDT.Controllers
         {
             _dataContext = dataContext;
         }
-
-
         public IActionResult Index(string phoneNumber)
         {
             // Kiểm tra xem số điện thoại có trong đơn hàng không
@@ -31,6 +29,7 @@ namespace WebDT.Controllers
                 ViewBag.Message = "Số điện thoại không khả dụng";
                 return View("KiemTraDonHang");
             }
+
         }
     }
 }
