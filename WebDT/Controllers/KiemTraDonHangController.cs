@@ -16,8 +16,6 @@ namespace WebDT.Controllers
         }
 
 
-
-        [HttpPost]
         public IActionResult Index(string phoneNumber)
         {
             // Kiểm tra xem số điện thoại có trong đơn hàng không
