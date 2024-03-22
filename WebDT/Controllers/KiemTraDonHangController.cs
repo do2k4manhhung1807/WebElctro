@@ -15,15 +15,24 @@ namespace WebDT.Controllers
             _dataContext = dataContext;
         }
 
+
+
         [HttpPost]
         public IActionResult Index(string phoneNumber)
         {
-            if (phoneNumber == null)
+            // Kiểm tra xem số điện thoại có trong đơn hàng không
+            var donHang = _dataContext.DonHang.FirstOrDefault(d => d.SoDienThoai == phoneNumber);
+            if (donHang != null)
             {
-                return NotFound();
+                // Nếu có, hiển thị thông tin đơn hàng
+                return View("ThongTinDonHang", donHang);
             }
-            return View();
+            else
+            {
+                // Nếu không, hiển thị thông báo số điện thoại không khả dụng
+                ViewBag.Message = "Số điện thoại không khả dụng";
+                return View("KiemTraDonHang");
+            }
         }
-
     }
 }
