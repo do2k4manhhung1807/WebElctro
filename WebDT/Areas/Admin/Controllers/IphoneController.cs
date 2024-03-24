@@ -24,13 +24,38 @@ namespace WebDT.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(String SearchString)
         {
-            var iphone = _context.IPHONE.AsQueryable();
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                iphone = iphone.Where(x => x.TenSanPham.Contains(SearchString));
-            }
-            return View(iphone);
+            var iphoneData = _context.IPHONE.AsQueryable().ToList();
 
+            // List iphones to show to view default is empty
+            var iPhones = new List<Iphone>();
+
+            if (iphoneData != null && iphoneData.Any())
+            {
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    iPhones = iphoneData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
+                }
+            }
+
+            return View(iPhones);
+            /*// Should check list iphone has value or null
+            if (iphoneData == null)
+            {
+                // Show error view
+            } 
+            else if (iphoneData.Count == 0)
+            {
+                // Show error view
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    iPhones = iphoneData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
+                }
+            }
+
+            return View(iPhones);*/
         }
         public async Task<IActionResult> Create()
         {
