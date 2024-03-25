@@ -26,7 +26,6 @@ namespace WebDT.Areas.Admin.Controllers
         {
             var iphoneData = _context.IPHONE.AsQueryable().ToList();
 
-            // List iphones to show to view default is empty
             var iPhones = new List<Iphone>();
 
             if (iphoneData != null && iphoneData.Any())

@@ -1,7 +1,7 @@
 ﻿@model WebDT.Models.LoginViewModel;
 @{
     ViewData["Title"] = "Login";
-    Layout = "_LoginPartial";
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -25,7 +25,9 @@
             </div>
             <div class="pass">
             </div>
-            <input type="submit" value="Login">
+            <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" />
+
+            <button type="submit" value="Login">Login</button>
             <div class="signup_link">
             </div>
         </form>

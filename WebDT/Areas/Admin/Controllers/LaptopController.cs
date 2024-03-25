@@ -23,7 +23,7 @@ namespace WebDT.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(String SearchString)
         {
-            var laptopData = _context.LAPTOP.AsQueryable().ToList();
+            var laptopData = await _context.LAPTOP.AsQueryable().ToListAsync();
 
             // List iphones to show to view default is empty
             var lapTops = new List<Laptop>();
@@ -141,16 +141,6 @@ namespace WebDT.Areas.Admin.Controllers
             return View(laptop);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int maSanPham)
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Delete(IphoneViewModel iphone)
-        {
-            return RedirectToAction("Index", "Laptop");
-        }
 
 
         private string UploadFile(IFormFile file)

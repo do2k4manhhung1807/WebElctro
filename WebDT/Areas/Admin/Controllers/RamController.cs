@@ -113,7 +113,6 @@ namespace WebDT.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
 
-            return View(ram);
         }
 
         // GET: Ram/Delete/5
