@@ -7,7 +7,7 @@ namespace WebDT.Areas.Admin.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public IActionResult Admmin()
+        public IActionResult Index()
         {
             return View();
         }

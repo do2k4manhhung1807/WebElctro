@@ -110,7 +110,7 @@ namespace WebDT.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
 
-            return View(mauSac);
+
         }
 
         // GET: MauSac/Delete/5

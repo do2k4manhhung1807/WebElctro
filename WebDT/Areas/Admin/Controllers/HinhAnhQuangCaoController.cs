@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using WebDT.Models;
@@ -6,6 +7,7 @@ using WebDT.Models;
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class HinhAnhQuangCaoController : Controller
     {
         private readonly ApplicationDbContext _context;

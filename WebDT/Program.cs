@@ -44,13 +44,6 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped<UserManager<AppUserModel>>();
 builder.Services.AddScoped<SignInManager<AppUserModel>>();
-/*builder.Services.AddDefaultIdentity<User>()
-      .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();*/
-
-/*builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
 var app = builder.Build();
 

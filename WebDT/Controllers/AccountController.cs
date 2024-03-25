@@ -3,6 +3,7 @@ using WebDT.Models;
 using WebDT.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -15,26 +16,17 @@ namespace WebDT.Areas.Admin.Controllers
             _signInManager = signInManager;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="returnUrl">Store url which user input on browser</param>
-        /// <returns></returns>
         public IActionResult Login(string returnUrl = null)
         {
             LoginViewModel login = new LoginViewModel();
-
-            // If returnUrl has value - User input to url => Keep url of user to model
-            if (!string.IsNullOrWhiteSpace(returnUrl))
-            {
-                login.ReturnURL = returnUrl;
-            }
-
-            return View("~/Areas/Admin/Views/Account/Login.cshtml", login);
+            ViewData["returnUrl"] = returnUrl;
+            return View(login);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             if (model == null)
             {
@@ -46,14 +38,13 @@ namespace WebDT.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
-                    // If url which input from browser is valid. Ex: /a/b => Redirect to user page
-                    if (Url.IsLocalUrl(model.ReturnURL))
+                    if (Url.IsLocalUrl(returnUrl))
                     {
-                        return Redirect(model.ReturnURL);
+                        return LocalRedirect(returnUrl);
                     }
-                    else // Default, user do not input the url => Redirect to home page
+                    else
                     {
-                        return RedirectToAction("Admmin", "Home", new { area = "Admin" });
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
                 }
                 ModelState.AddModelError("", "Invalid Login Attempt");
