@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
@@ -8,6 +9,7 @@ using WebDT.ViewModel;
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class iPadController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,13 +25,19 @@ namespace WebDT.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(String SearchString)
         {
-            var ipad = _context.IPAD.AsQueryable();
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                ipad = ipad.Where(x => x.TenSanPham.Contains(SearchString));
-            }
-            return View(ipad);
+            var ipadData = _context.IPAD.AsQueryable().ToList();
 
+            // List iphones to show to view default is empty
+            var iPads = new List<Ipad>();
+
+            if (ipadData != null && ipadData.Any())
+            {
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    iPads = ipadData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
+                }
+            }
+            return View(iPads);
         }
         public IActionResult Create()
         {

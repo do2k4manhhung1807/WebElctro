@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
@@ -8,6 +9,7 @@ using WebDT.ViewModel;
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class LaptopController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,13 +21,21 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
-
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String SearchString)
         {
-            var laptop = await _context.LAPTOP.ToListAsync();
-            return View(laptop);
+            var laptopData = _context.LAPTOP.AsQueryable().ToList();
 
+            // List iphones to show to view default is empty
+            var lapTops = new List<Laptop>();
+
+            if (laptopData != null && laptopData.Any())
+            {
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    lapTops = laptopData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
+                }
+            }
+            return View(lapTops);
         }
         public IActionResult Create()
         {
