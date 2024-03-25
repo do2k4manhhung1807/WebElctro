@@ -6,6 +6,7 @@ using WebDT.Models;
 using WebDT.Repository;
 using WebDT.ViewModel;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using System.Collections.Generic;
 
 namespace WebDT.Controllers
 {
@@ -33,8 +34,12 @@ namespace WebDT.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(CartItemViewModel cartVM)
+        public async Task<IActionResult> Index(CartItemViewModel cartVM) { 
+            cartVM.CartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            if (string.IsNullOrEmpty(cartVM.DonHang.TenKhachHang) || string.IsNullOrEmpty(cartVM.DonHang.SoDienThoai) || string.IsNullOrEmpty(cartVM.DonHang.DiaChi))
         {
+                return View(cartVM);
+        }
             if (cartVM == null || cartVM.DonHang == null)
             {
                 return NotFound();
@@ -65,7 +70,7 @@ namespace WebDT.Controllers
             }
 
 
-
+            HttpContext.Session.Remove("Cart");
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
