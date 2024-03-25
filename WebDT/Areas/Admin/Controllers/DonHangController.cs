@@ -81,7 +81,7 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.TrangThaiThanhToanList = new SelectList(_dataContext.TrangThaiThanhToan, "MaTrangThaiThanhToan", "TenTrangThaiThanhToan");
             return View(viewModel);
         }
-        [HttpPost]
+    
         [HttpPost]
         public async Task<IActionResult> Edit(int MaDonHang, int MaTrangThaiDonHang, int MaTrangThaiThanhToan)
         {

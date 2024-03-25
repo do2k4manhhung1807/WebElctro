@@ -63,8 +63,10 @@
                 </div>
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
-                        @foreach(var donhang in Model.DonHangList){
-                   
+                    @{
+                           
+                        foreach(var donhang in Model.DonHangList){
+                            
                             // Get name
                         var tenTrangThaiThanhToan = Model._context.TrangThaiThanhToan.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
                         var tenTrangThaiDonHang = Model._context.TrangThaiDonHang.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
@@ -77,8 +79,7 @@
                                 <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
                                 <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
                                 <span class="mb-2 text-xs">Trạng thái thanh toán: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
-                                <span class="mb-2 text-xs">Tổng giá trị đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
-
+                               
                             </div>
 
                                 <div class="ms-auto text-end">
@@ -91,6 +92,7 @@
                                 </div>
 
                         </li>
+                        }
                         }
                     </ul>
                 </div>
