@@ -137,7 +137,7 @@ namespace WebDT.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
+            /*migrationBuilder.CreateTable(
                 name: "UserTokens",
                 columns: table => new
                 {
@@ -148,14 +148,14 @@ namespace WebDT.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                   *//* table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });*//*
                     table.ForeignKey(
                         name: "FK_UserTokens_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                });*/
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebDT.Data;
 
@@ -11,9 +12,11 @@ using WebDT.Data;
 namespace WebDT.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240326064317_AddColumnForSanPham")]
+    partial class AddColumnForSanPham
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,7 +241,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaBoNho");
 
-                    b.ToTable("BONHO", (string)null);
+                    b.ToTable("BONHO");
                 });
 
             modelBuilder.Entity("WebDT.Models.ChiTietDonHangSanPham", b =>
@@ -256,7 +259,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaDonHang");
 
-                    b.ToTable("ChiTietDonHangSanPham", (string)null);
+                    b.ToTable("ChiTietDonHangSanPham");
                 });
 
             modelBuilder.Entity("WebDT.Models.DonHang", b =>
@@ -297,7 +300,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaTrangThaiThanhToan");
 
-                    b.ToTable("DonHang", (string)null);
+                    b.ToTable("DonHang");
                 });
 
             modelBuilder.Entity("WebDT.Models.HinhAnh", b =>
@@ -319,7 +322,7 @@ namespace WebDT.Migrations
 
                     b.HasIndex("MaSanPham");
 
-                    b.ToTable("HINHANH", (string)null);
+                    b.ToTable("HINHANH");
                 });
 
             modelBuilder.Entity("WebDT.Models.HinhAnhQuangCao", b =>
@@ -336,7 +339,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaAnhQuangCao");
 
-                    b.ToTable("HinhAnhQuangCao", (string)null);
+                    b.ToTable("HinhAnhQuangCao");
                 });
 
             modelBuilder.Entity("WebDT.Models.LoaiSanPham", b =>
@@ -353,7 +356,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaLoaiSanPham");
 
-                    b.ToTable("LOAISANPHAM", (string)null);
+                    b.ToTable("LOAISANPHAM");
                 });
 
             modelBuilder.Entity("WebDT.Models.MauSac", b =>
@@ -370,7 +373,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaMauSac");
 
-                    b.ToTable("MAUSAC", (string)null);
+                    b.ToTable("MAUSAC");
                 });
 
             modelBuilder.Entity("WebDT.Models.Ram", b =>
@@ -387,7 +390,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaRam");
 
-                    b.ToTable("RAM", (string)null);
+                    b.ToTable("RAM");
                 });
 
             modelBuilder.Entity("WebDT.Models.SanPham", b =>
@@ -472,7 +475,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaSanPhamDacBiet");
 
-                    b.ToTable("SanPhamDacBiet", (string)null);
+                    b.ToTable("SanPhamDacBiet");
                 });
 
             modelBuilder.Entity("WebDT.Models.ThuongHieu", b =>
@@ -489,7 +492,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaThuongHieu");
 
-                    b.ToTable("THUONGHIEU", (string)null);
+                    b.ToTable("THUONGHIEU");
                 });
 
             modelBuilder.Entity("WebDT.Models.TrangThaiDonHang", b =>
@@ -506,7 +509,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaTrangThaiDonHang");
 
-                    b.ToTable("TrangThaiDonHang", (string)null);
+                    b.ToTable("TrangThaiDonHang");
                 });
 
             modelBuilder.Entity("WebDT.Models.TrangThaiThanhToan", b =>
@@ -523,7 +526,7 @@ namespace WebDT.Migrations
 
                     b.HasKey("MaTrangThaiThanhToan");
 
-                    b.ToTable("TrangThaiThanhToan", (string)null);
+                    b.ToTable("TrangThaiThanhToan");
                 });
 
             modelBuilder.Entity("WebDT.Models.IMac", b =>

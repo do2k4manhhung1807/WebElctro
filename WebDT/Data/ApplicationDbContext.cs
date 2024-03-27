@@ -90,14 +90,14 @@ namespace WebDT.Data
            .HasValue<SanPham>(0);
 
 
-                    foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+/*                    foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 var tableName = entityType.GetTableName();
                 if (tableName.StartsWith("AspNet"))
                 {
                     entityType.SetTableName(tableName.Substring(6));
                 }
-        }
+        }*/
 
 
 }

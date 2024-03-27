@@ -14,8 +14,15 @@ namespace WebDT.Models
         public string ManHinh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin mô tả")]
         public string Mota { get; set; }
-/*        public int? BaoHanh { get; set; }
-*/        public int MaThuongHieu { get; set; }
+        public int? ThoiGianBaoHanh { get; set; }
+        public enum ThoiGianBaoHanhEnum
+        {
+            _6Thang = 6,
+            _12Thang = 12,
+            _24Thang = 24
+        }
+
+        public int MaThuongHieu { get; set; }
         [ForeignKey("LoaiSanPham")]
         public int MaLoaiSanPham { get; set; }
 

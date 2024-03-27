@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using WebDT.Data;
 using WebDT.Models;
 using WebDT.ViewModel;
+using static WebDT.Models.SanPham;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -86,6 +87,14 @@ namespace WebDT.Areas.Admin.Controllers
                     };
                     await _context.HINHANH.AddAsync(hinhAnh);
                 }
+            int thoiGianBaoHanh = int.Parse(Request.Form["ThoiGianBaoHanh"]);
+            ViewBag.ThoiGianBaoHanh = Enum.GetValues(typeof(ThoiGianBaoHanhEnum))
+                                    .Cast<ThoiGianBaoHanhEnum>()
+                                    .Select(v => new SelectListItem
+                                    {
+                                        Text = v.ToString().Substring(1) + " tháng",
+                                        Value = ((int)v).ToString()
+                                    });
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Iphone");
         }

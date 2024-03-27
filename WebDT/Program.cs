@@ -95,42 +95,43 @@ app.MapRazorPages();
     }
 }*/
 
-using (var scope = app.Services.CreateScope())
-{
-    var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Manager", "Staff", "User" };
+//using (var scope = app.Services.CreateScope())
+//{
+//    var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//    var roles = new[] { "Manager", "Staff", "User" };
 
-    foreach (var role in roles)
-    {
-        if (!await roleManger.RoleExistsAsync(role))
-            await roleManger.CreateAsync(new IdentityRole(role));
-    }
-}
-using (var scope = app.Services.CreateScope())
-{
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUserModel>>();
-    string email = "admin@gmail.com";
-    string emailtStaff = "staff@gmail.com";
-    string password = "Test@1234";
-    string address = "SG";
-    if (await userManager.FindByEmailAsync(email) == null)
-    {
-        var user = new AppUserModel();
-        user.UserName = email;
-        user.Email = email;
-        user.Address = address;
-        await userManager.CreateAsync(user, password);
-        await userManager.AddToRoleAsync(user, "Manager");
-    }
-    if (await userManager.FindByEmailAsync(emailtStaff) == null)
-    {
-        var user = new AppUserModel();
-        user.UserName = emailtStaff;
-        user.Email = emailtStaff;
-        user.Address = address;
-        await userManager.CreateAsync(user, password);
-        await userManager.AddToRoleAsync(user, "Staff");
-    }
+//    foreach (var role in roles)
+//    {
+//        if (!await roleManger.RoleExistsAsync(role))
+//            await roleManger.CreateAsync(new IdentityRole(role));
+//    }
+//}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUserModel>>();
+//    string email = "admin@gmail.com";
+//    string emailtStaff = "staff@gmail.com";
+//    string password = "Test@1234";
+//    string address = "SG";
+//    if (await userManager.FindByEmailAsync(email) == null)
+//    {
+//        var user = new AppUserModel();
+//        user.UserName = email;
+//        user.Email = email;
+//        user.Address = address;
+//        await userManager.CreateAsync(user, password);
+//        await userManager.AddToRoleAsync(user, "Manager");
+//    }
+//    if (await userManager.FindByEmailAsync(emailtStaff) == null)
+//    {
+//        var user = new AppUserModel();
+//        user.UserName = emailtStaff;
+//        user.Email = emailtStaff;
+//        user.Address = address;
+//        await userManager.CreateAsync(user, password);
+//        await userManager.AddToRoleAsync(user, "Staff");
+//    }
 
-    app.Run();
-}
+//    app.Run();
+//}
+app.Run();
